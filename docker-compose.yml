@@ -1,0 +1,88 @@
+version: "3"
+services:
+
+  app:
+    image: portal-interactivo-www
+    container_name: portal-interactivo-www
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        APP_ENV: local
+    depends_on:
+      - redis
+      - db
+    ports:
+      - 6080:80
+      - 6043:443
+    volumes:
+      - .:/var/www/html
+      - node_modules:/var/www/html/node_modules/
+      - vendor:/var/www/html/vendor/
+    command: bash -c "chmod +x /var/www/html/docker/setup-local.sh && /var/www/html/docker/setup-local.sh && /usr/local/bin/start"
+    env_file:
+      - .env
+    environment:
+      CONTAINER_ROLE: app
+      TZ: "America/Guatemala"
+
+  scheduler:
+    image: portal-interactivo-www
+    container_name: portal-interactivo-scheduler
+    depends_on:
+      - app
+    volumes:
+      - .:/var/www/html
+      - node_modules:/var/www/html/node_modules/
+      - vendor:/var/www/html/vendor/
+    env_file:
+      - .env
+    environment:
+      CONTAINER_ROLE: scheduler
+      TZ: "America/Guatemala"
+
+  redis:
+    container_name: portal-interactivo-redis
+    image: redis:4-alpine
+    ports:
+      - 26379:6379
+    volumes:
+      - redis:/data
+
+  db:
+    container_name: portal-interactivo-mysql
+    image: mysql:5.7
+    #command: mysqld --default-authentication-plugin=mysql_native_password
+    ports:
+      - 23306:3306
+    expose:
+      - '3306'
+    volumes:
+      - portal-interactivo-db-57:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: 'portal-interactivo'
+      MYSQL_USER: 'portal-interactivo'
+      MYSQL_PASSWORD: 'hi7Azoph5y'
+      MYSQL_ROOT_PASSWORD: 'hi7Azoph5y'
+  vue-ui:
+    build:
+      context: ./frontEnd
+      dockerfile: DockerFile
+    ports:
+      - "8080:8080"
+    container_name: frontend-ui
+    volumes:
+       - ./frontEnd:/usr/src/app/frontEnd
+       - /usr/src/app/frontEnd/node_modules
+
+volumes:
+  redis:
+    driver: "local"
+  portal-interactivo-db-57:
+    driver: "local"
+  node_modules:
+    driver: "local"
+  vendor:
+    driver: "local"
+  vue-ui:
+    driver: "local"

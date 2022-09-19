@@ -40,8 +40,8 @@
             </li>
             <li class="nav-item{{ $activePage == 'profesor-management' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('profesores.index') }}">
-                <span class="sidebar-mini"> UM </span>
-                <span class="sidebar-normal"> {{ __('Profesores') }} </span>
+                <span class="sidebar-mini"> PR </span>
+                <span class="sidebar-normal"> {{ __('MIS PROFESORES') }} </span>
               </a>
             </li>
           </ul>

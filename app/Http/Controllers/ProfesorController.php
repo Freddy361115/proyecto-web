@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Input;
 use Illuminate\Http\Request;
 use App\Models\Profesor;
 use App\Http\Requests\ProfesorRequest;
@@ -15,8 +16,9 @@ class ProfesorController extends Controller
     
     {
         //$data = Profesor::orderBy('id','desc')->paginate(10);
+        return Profesor::where('estado','=',true)->get(); // Retornando todos los profesores activos.
 
-        return view('profesores.index', ['profesor' => $model::where('estado','=', true)->paginate(15)]);
+        //return view('profesores.index', ['profesor' => $model::where('estado','=', true)->paginate(15)]);
 
     //return view('profesores.index',compact(['data']));
 }
@@ -28,36 +30,79 @@ public function create()
 
 
 public function store(Request $request)
-{  ([   'nombres',
-        'apellidos',
-        'fecha_nacimiento',
-        'dpi' => 'required'
-    ]);
+{  
+    $post = $request->all();
+    $data = new Profesor;
+    $data->nombres = $post['nombres'];
+    $data->apellidos = $post['apellidos'];
+    $data->fecha_nacimiento = $post['fecha_nacimiento'];
+    $data->dpi = $post['dpi']; 
 
-    Profesor::create($request->all());
+  
+
+    try {
+        $data->save();
+        return response()->json(array('success' => true, 'messagge'=> null , 'last_insert_id' => $data->id), 200);
+
+    } catch (\Throwable $th) {
+        //throw $th;
+        return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);
+    }
     
-    return redirect()->route('profesores.index')->withStatus(__('Profesor Agregado correctamente'));
+    
+    //return redirect()->route('profesores.index')->withStatus(__('Profesor Agregado correctamente'));
 
 }
 public function show($id)
 
-  { $data =  Profesor::find($id);
-   return view('profesores.show',compact(['data']));}
+  { 
+    try {
+        return $data =  Profesor::findOrFail($id);
+    } catch (\Throwable $th) {
+        return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
+    }
+    
+   }
 
 
 public function edit($id)
 
-   {$data = Profesor::find($id);
-   return view('profesores.edit',compact(['data']));}
+   { 
+    try {
+        //code...
+        return $data = Profesor::findOrFail($id);
+    } catch (\Throwable $th) {
+        //throw $th;
+        return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
+    }
+    
+
+   //return view('profesores.edit',compact(['data']));
+}
 
 
 public function update(Request $request, $id)
 {
-    $request->validate([
-     'nombres' => 'required',
-     'apellidos' => 'required',
-     'fecha_nacimiento' => 'required',
-     'dpi' => 'required']);
+    $post = $request->all();
+    $data = Profesor::findOrFail($id);
+    $data->nombres = $post['nombres'];
+    $data->apellidos = $post['apellidos'];
+    $data->fecha_nacimiento = $post['fecha_nacimiento'];
+    $data->dpi = $post['dpi']; 
+
+    
+
+try {
+    $data->save();
+    return response()->json(array('success' => true, 'messagge'=> 'Registro actualizado correctamente' ), 200);
+
+} catch (\Throwable $th) {
+    return response()->json(array('success' => false,'messagge'=> $th), 404);
+}
+
+     
+
+
 }
 public function destroy($id)
 {

@@ -9,12 +9,12 @@ ENV APP_ENV $APP_ENV
 ENV APP_KEY false
 ENV APP_DEBUG 'true'
 ENV DEBUGBAR_ENABLED false
-ENV APP_URL http://local.mentores.com:6080
+ENV APP_URL http://local.portal-interactivo.com:6080
 
 ENV DB_HOST db
 ENV DB_PORT 3306
-ENV DB_DATABASE 'mentores'
-ENV DB_USERNAME 'mentores'
+ENV DB_DATABASE 'portal-interactivo'
+ENV DB_USERNAME 'portal-interactivo'
 ENV DB_PASSWORD 'hi7Azoph5y'
 
 ENV CACHE_DRIVER redis

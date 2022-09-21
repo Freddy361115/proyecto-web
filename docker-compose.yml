@@ -66,13 +66,13 @@ services:
       MYSQL_ROOT_PASSWORD: 'hi7Azoph5y'
   vue-ui:
     build:
-      context: ./frontEnd
+      context: ./frontend
       dockerfile: DockerFile
     ports:
       - "8080:8080"
     container_name: frontend-ui
     volumes:
-       - ./frontEnd:/usr/src/app/frontEnd
+       - ./frontend:/usr/src/app/frontEnd
        - /usr/src/app/frontEnd/node_modules
 
 volumes:

@@ -19,10 +19,10 @@ class CreateProfesorsTable extends Migration
             $table->string('apellidos');
             $table->date('fecha_nacimiento');
             $table->string('telefono')->nullable();
-            $table->string('email')->nullable();;
+            $table->string('email')->nullable();
             $table->string('dpi');
-            $table->string('direccion')->nullable();;
-            $table->boolean('estado')->default(true);;
+            $table->string('direccion')->nullable();
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

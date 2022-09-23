@@ -22,7 +22,7 @@ class CreateSupervisorsTable extends Migration
             $table->date('fecha_nacimiento')->nullable();                        
             $table->boolean('estado')->default(true);
             $table->timestamps();
-            $table->integer('id_usuario')->unsigned();
+            $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id')->on('users');
 
         });

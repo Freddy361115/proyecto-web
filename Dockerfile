@@ -44,7 +44,7 @@ ENV MAIL_ENCRYPTION tls
 # Create your own and add it to .env
 ENV MAIL_USERNAME null
 ENV MAIL_PASSWORD null
-ENV MAIL_FROM_ADDRESS "no-reply@grupomentores.com"
+ENV MAIL_FROM_ADDRESS "no-reply@portal-interactivo.com"
 
 
 

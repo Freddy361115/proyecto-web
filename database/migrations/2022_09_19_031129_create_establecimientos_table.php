@@ -21,7 +21,7 @@ class CreateEstablecimientosTable extends Migration
             $table->string('codigo_establecimiento')->nullable();            
             $table->boolean('estado')->default(true);
             $table->integer('id_supervisor')->unsigned();
-            $table->foreign('id_supervisor')->references('id_supervisor')->on('supervisors');
+            $table->foreign('id_supervisor')->references('id')->on('supervisors');
             $table->timestamps();
         });
     }

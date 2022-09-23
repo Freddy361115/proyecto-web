@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Input;
 use Illuminate\Http\Request;
 use App\Models\Profesor;
 use App\Http\Requests\ProfesorRequest;
 use Illuminate\Support\Facades\Hash;
+use DateTime;
 
 class ProfesorController extends Controller
 {
@@ -31,7 +31,8 @@ public function create()
 
 public function store(Request $request)
 {  
-    $post = $request->all();
+    
+    $post = $request->all();    
     $data = new Profesor;
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
@@ -83,12 +84,22 @@ public function edit($id)
 
 public function update(Request $request, $id)
 {
+    date_default_timezone_set('America/Guatemala');
+    $horaActual = new \DateTime('now');
     $post = $request->all();
     $data = Profesor::findOrFail($id);
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
     $data->fecha_nacimiento = $post['fecha_nacimiento'];
-    $data->dpi = $post['dpi']; 
+    $data->dpi = $post['dpi'];
+    $data->updated_at = $horaActual->format("Y-m-d H:i:s");
+    try {
+        $data->estado = $post['estado'];
+    }
+    catch(\Throwable $th){
+        
+    } 
+    
 
     
 
@@ -108,8 +119,14 @@ public function destroy($id)
 {
     $profesor = Profesor::findOrFail($id);
     $profesor->estado=false;
-    $profesor->save();
-    return redirect()->route('profesores.index')->withStatus(__('Eliminado correctamente.'));
+    try {
+        $profesor->save();
+    return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);
+    } catch (\Throwable $th) {
+        return response()->json(array('success' => false,'messagge'=> $th), 404);
+    }
+    
+    
     
 }
 }

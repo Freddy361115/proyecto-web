@@ -14,11 +14,12 @@ class CreateSupervisorsTable extends Migration
     public function up()
     {
         Schema::create('supervisors', function (Blueprint $table) {
-            $table->increments('id_supervisor');
+            $table->increments('id');
             $table->string('dpi');
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('direccion')->nullable(); 
+            $table->string('direccion')->nullable();
+            $table->string('email')->nullable();  
             $table->date('fecha_nacimiento')->nullable();                        
             $table->boolean('estado')->default(true);
             $table->timestamps();

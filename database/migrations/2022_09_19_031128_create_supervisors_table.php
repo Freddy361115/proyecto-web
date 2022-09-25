@@ -20,6 +20,7 @@ class CreateSupervisorsTable extends Migration
             $table->string('apellidos');
             $table->string('direccion')->nullable();
             $table->string('email')->nullable();  
+            $table->string('telefono')->nullable();  
             $table->date('fecha_nacimiento')->nullable();                        
             $table->boolean('estado')->default(true);
             $table->timestamps();

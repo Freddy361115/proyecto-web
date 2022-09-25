@@ -24,6 +24,8 @@ class CreateProfesorsTable extends Migration
             $table->string('direccion')->nullable();
             $table->boolean('estado')->default(true);
             $table->timestamps();
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id')->on('users');
         });
     }
 

@@ -15,6 +15,7 @@ class EstablecimientoController extends Controller
     public function index()
     {
         //
+        return Establecimiento::where('estado','=',true)->get();
     }
 
     /**
@@ -36,6 +37,23 @@ class EstablecimientoController extends Controller
     public function store(Request $request)
     {
         //
+        $post = $request->all();    
+    $data = new Establecimiento;
+    $data->nombre = $post['nombre'];
+    $data->direccion = $post['direccion'];
+    $data->telefono = $post['telefono'];
+    $data->email = $post['email'];
+    $data->codigo_establecimiento = $post['codigo_establecimiento'];    
+    $data->id_supervisor = $post['id_supervisor'];  
+
+    try {
+        $data->save();
+        return response()->json(array('success' => true, 'messagge'=> null , 'last_insert_id' => $data->id), 200);
+
+    } catch (\Throwable $th) {
+        //throw $th;
+        return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);
+    }
     }
 
     /**
@@ -44,9 +62,14 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function show(establecimiento $establecimiento)
+    public function show($id)
     {
         //
+        try {
+            return $data =  Establecimiento::where('id_establecimiento',$id)->get();
+        } catch (\Throwable $th) {
+            return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
+        }
     }
 
     /**
@@ -67,9 +90,34 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, establecimiento $establecimiento)
+    public function update(Request $request, $id)
     {
         //
+        $post = $request->all();
+        try {
+            Establecimiento::where('id_establecimiento',$id)->update([
+                'nombre' => $post['nombre'],
+                'direccion' => $post['direccion'],
+                'telefono'  => $post['telefono'],
+                'email' => $post['email'], 
+                'codigo_establecimiento' => $post['codigo_establecimiento'],
+                'id_supervisor' => $post['id_supervisor']]);
+                try {
+                    Establecimiento::where('id_establecimiento',$id)->update (
+                        ['estado'=>$post['estado']]
+                    );
+                    
+                }
+                catch(\Throwable $th){
+                    
+                } 
+                return response()->json(array('success' => true, 'messagge'=> 'Registro actualizado correctamente' ), 200);
+        } catch (\Throwable $th) {
+            
+            return response()->json(array('success' => false,'messagge'=> $th), 404);
+        }
+    
+    
     }
 
     /**
@@ -78,8 +126,17 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(establecimiento $establecimiento)
+    public function destroy($id)
     {
-        //
+        
+        
+    try {
+        Establecimiento::where('id_establecimiento',$id)
+        ->update(['estado'=> false]);
+        
+    return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);
+    } catch (\Throwable $th) {
+        return response()->json(array('success' => false,'messagge'=> $th), 404);
+    }
     }
 }

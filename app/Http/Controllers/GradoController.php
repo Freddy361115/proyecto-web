@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\supervisor;
+use App\Models\Grado;
 use Illuminate\Http\Request;
 
-class SupervisorController extends Controller
+class GradoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class SupervisorController extends Controller
     public function index()
     {
         //
-        return Supervisor::where('estado','=',true)->get(); // Retornando todos los supervisores activos.
-
+        return Grado::where('estado','=',true)->get(); // Retornando todos los grados activos.
     }
 
     /**
@@ -27,25 +26,24 @@ class SupervisorController extends Controller
     public function create()
     {
         //
+        
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         //
         $post = $request->all();    
-        $data = new Supervisor;
-        $data->nombres = $post['nombres'];
-        $data->apellidos = $post['apellidos'];
-        $data->fecha_nacimiento = $post['fecha_nacimiento'];
-        $data->email = $post['email'];
-        $data->telefono = $post['telefono'];
-        $data->direccion = $post['direccion'];
-        $data->dpi = $post['dpi']; 
-        $data->id_usuario = $post['id_usuario'];
-        
-    
-      
+        $data = new Grado;
+        $data->nombre = $post['nombre'];        
+        $data->seccion = $post['seccion'];  
+        $data->id_establecimiento = $post['id_establecimiento'];
+        $data->id_profesor = $post['id_profesor'];        
     
         try {
             $data->save();
@@ -60,14 +58,14 @@ class SupervisorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Grado  $grado
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
         try {
-            return $data =  Supervisor::findOrFail($id);
+            return $data =  Grado::findOrFail($id);
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
         }
@@ -76,7 +74,7 @@ class SupervisorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Grado  $grado
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,54 +93,48 @@ class SupervisorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Grado  $grado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
         //
         $post = $request->all();
-    $data = Supervisor::findOrFail($id);
-    $data->nombres = $post['nombres'];
-    $data->apellidos = $post['apellidos'];
-    $data->fecha_nacimiento = $post['fecha_nacimiento'];
-    $data->telefono = $post['telefono'];
-    $data->email = $post['email'];
-    $data->direccion = $post['direccion'];
-    $data->dpi = $post['dpi']; 
-    $data->id_usuario = $post['id_usuario'];
-    try {
-        $data->estado = $post['estado'];
-    }
-    catch(\Throwable $th){
+        $data = Grado::findOrFail($id);
+        $data->nombre = $post['nombre'];
+        $data->seccion = $post['seccion'];
+        $data->id_establecimiento = $post['id_establecimiento'];
+        $data->id_profesor = $post['id_profesor'];
+        try {
+            $data->estado = $post['estado'];
+        }
+        catch(\Throwable $th){
+            
+        } 
         
-    } 
     
-
-try {
-    $data->save();
-    return response()->json(array('success' => true, 'messagge'=> 'Registro actualizado correctamente' ), 200);
-
-} catch (\Throwable $th) {
-    return response()->json(array('success' => false,'messagge'=> $th), 404);
-}
-
-
+    try {
+        $data->save();
+        return response()->json(array('success' => true, 'messagge'=> 'Registro actualizado correctamente' ), 200);
+    
+    } catch (\Throwable $th) {
+        return response()->json(array('success' => false,'messagge'=> $th), 404);
+    }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Grado  $grado
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
-        $supervisor = Supervisor::findOrFail($id);
-    $supervisor->estado=false;
+        $grado = Grado::findOrFail($id);
+    $grado->estado=false;
     try {
-        $supervisor->save();
+        $grado->save();
     return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);
     } catch (\Throwable $th) {
         return response()->json(array('success' => false,'messagge'=> $th), 404);

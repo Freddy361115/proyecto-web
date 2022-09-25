@@ -17,7 +17,8 @@ class CreateEstablecimientosTable extends Migration
             $table->increments('id_establecimiento');
             $table->string('nombre');
             $table->string('direccion');
-            $table->date('telefono')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable();
             $table->string('codigo_establecimiento')->nullable();            
             $table->boolean('estado')->default(true);
             $table->integer('id_supervisor')->unsigned();

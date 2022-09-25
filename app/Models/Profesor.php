@@ -19,8 +19,13 @@ class Profesor extends Model
         'email',
         'dpi',
         'direccion',
+        'id_usuario',
         'created_at'
     ];
+    public function profesorEstablecimiento()
+    {
+        return $this->belongsToMany(Establecimiento::class);
+    }
     
 }
 

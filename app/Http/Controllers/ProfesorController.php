@@ -37,7 +37,11 @@ public function store(Request $request)
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
     $data->fecha_nacimiento = $post['fecha_nacimiento'];
-    $data->dpi = $post['dpi']; 
+    $data->telefono = $post['telefono'];
+    $data->email = $post['email'];
+    $data->dpi = $post['dpi'];
+    $data->direccion = $post['direccion'];
+    $data->id_usuario = $post['id_usuario'];    
 
   
 
@@ -91,7 +95,11 @@ public function update(Request $request, $id)
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
     $data->fecha_nacimiento = $post['fecha_nacimiento'];
+    $data->telefono = $post['telefono'];
+    $data->email = $post['email'];
     $data->dpi = $post['dpi'];
+    $data->direccion = $post['direccion'];
+    $data->id_usuario = $post['id_usuario'];
     $data->updated_at = $horaActual->format("Y-m-d H:i:s");
     try {
         $data->estado = $post['estado'];

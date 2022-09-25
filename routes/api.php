@@ -21,9 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('profesores','App\Http\Controllers\ProfesorController');
 Route::resource('supervisors','App\Http\Controllers\SupervisorController');
-
+Route::resource('establecimientos','App\Http\Controllers\EstablecimientoController');
+Route::resource('grados','App\Http\Controllers\GradoController');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);	
 	
 });
+

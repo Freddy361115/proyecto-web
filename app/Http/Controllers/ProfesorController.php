@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Input;
 use Illuminate\Http\Request;
 use App\Models\Profesor;
-use App\Http\Requests\ProfesorRequest;
+use App\Models\User;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ProfesorRequest;
 use DateTime;
 
 class ProfesorController extends Controller
@@ -30,20 +32,31 @@ public function create()
 
 
 public function store(Request $request)
-{  
-    
+{   $dataUser = new User;
     $post = $request->all();    
     $data = new Profesor;
+    try {
+        /* DATOS PARA CREAR USUARIO */
+    $dataUser->email = $post['email'];
+    $dataUser->name=$post['nombre_usuario'];
+    $dataUser->password = Hash::make($post['password']);
+    $dataUser->save();
+    } catch (\Throwable $th) {
+        //throw $th;
+        return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);
+    }
+    
+    
+
+    
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
     $data->fecha_nacimiento = $post['fecha_nacimiento'];
     $data->telefono = $post['telefono'];
     $data->email = $post['email'];
     $data->dpi = $post['dpi'];
-    $data->direccion = $post['direccion'];
-    $data->id_usuario = $post['id_usuario'];    
-
-  
+    $data->direccion = $post['direccion'];    
+    $data->id_usuario = $dataUser->id;
 
     try {
         $data->save();
@@ -100,6 +113,9 @@ public function update(Request $request, $id)
     $data->dpi = $post['dpi'];
     $data->direccion = $post['direccion'];
     $data->id_usuario = $post['id_usuario'];
+    
+
+
     $data->updated_at = $horaActual->format("Y-m-d H:i:s");
     try {
         $data->estado = $post['estado'];

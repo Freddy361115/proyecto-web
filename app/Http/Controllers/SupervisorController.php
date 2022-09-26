@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\supervisor;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class SupervisorController extends Controller
 {
@@ -33,8 +35,21 @@ class SupervisorController extends Controller
     public function store(Request $request)
     {
         //
+        $dataUser = new User;
         $post = $request->all();    
         $data = new Supervisor;
+
+        try {
+            /* DATOS PARA CREAR USUARIO */
+        $dataUser->email = $post['email'];
+        $dataUser->name=$post['nombre_usuario'];
+        $dataUser->password = Hash::make($post['password']);
+        $dataUser->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);
+        }
+     
         $data->nombres = $post['nombres'];
         $data->apellidos = $post['apellidos'];
         $data->fecha_nacimiento = $post['fecha_nacimiento'];
@@ -42,7 +57,7 @@ class SupervisorController extends Controller
         $data->telefono = $post['telefono'];
         $data->direccion = $post['direccion'];
         $data->dpi = $post['dpi']; 
-        $data->id_usuario = $post['id_usuario'];
+        $data->id_usuario = $dataUser->id; // enviando el id del usuario creado en el metodo anterior.
         
     
       
@@ -149,3 +164,4 @@ try {
     }
     }
 }
+

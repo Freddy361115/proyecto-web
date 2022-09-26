@@ -45,6 +45,7 @@ class SupervisorController extends Controller
         $dataUser->name=$post['nombre_usuario'];
         $dataUser->password = Hash::make($post['password']);
         $dataUser->save();
+        $dataUser->roles()->attach(1); // Asignando el rol de supervisor al nuevo usuario creado.
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);
@@ -65,6 +66,7 @@ class SupervisorController extends Controller
         try {
             $data->save();
             return response()->json(array('success' => true, 'messagge'=> null , 'last_insert_id' => $data->id), 200);
+            
     
         } catch (\Throwable $th) {
             //throw $th;

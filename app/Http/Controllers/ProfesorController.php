@@ -41,6 +41,7 @@ public function store(Request $request)
     $dataUser->name=$post['nombre_usuario'];
     $dataUser->password = Hash::make($post['password']);
     $dataUser->save();
+    $dataUser->roles()->attach(2); // Agregando rol de profesor al usuario creado.
     } catch (\Throwable $th) {
         //throw $th;
         return response()->json(array('success' => false,'messagge'=> $th, 'last_insert_id' => null), 400);

@@ -1,0 +1,120 @@
+<template>
+    <div class="content">
+      <div class="md-layout">
+        <div
+          class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+        >
+          <md-card>
+            <md-card-header data-background-color="green">
+              <h4 class="title">Crear nuevo supervisor</h4>
+            </md-card-header>
+            <md-card-content>
+        <div class="md-layout" v-if="supervisor">
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Nombres</label>
+              <md-input required v-model="supervisor.nombres"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Apellidos</label>
+              <md-input required v-model="supervisor.apellidos" type="text"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Fecha Nacimiento</label>
+              <md-input required v-model="supervisor.fecha_nacimiento" type="date"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Nombre de Usuario</label>
+              <md-input required v-model="supervisor.nombre_usuario" type="text"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Email</label>
+              <md-input required v-model="supervisor.email" type="email"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Password</label>
+              <md-input required v-model="supervisor.password" type="password"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>DPI</label>
+              <md-input v-model="supervisor.dpi" maxlength="13" type="text"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Direccion</label>
+              <md-input v-model="supervisor.direccion" type="text"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-33">
+            <md-field>
+              <label>Telefono</label>
+              <md-input v-model="supervisor.telefono" maxlength="8" type="text"></md-input>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-size-100 text-right">
+            <md-button class="md-raised md-success" @click="save">Guardar</md-button>
+            <md-button class="md-raised md-default" @click="goBack">Cancelar</md-button>
+          </div>
+        </div>
+      </md-card-content>
+          </md-card>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+
+  export default {
+  name: "edit-profile-form",
+  props: {
+    dataBackgroundColor: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      supervisor: null
+    };
+  },
+  async mounted() {
+    this.supervisor = await this.$getRequest(process.env.VUE_APP_API + '/supervisors/' + this.$route.params.id);
+  },
+  methods: {
+    goBack() {
+    //   this.$router.replace({ path: "/municipalities" });
+      this.$router.push({
+            name: "Supervisores"
+          });
+    },
+    async save() {
+      let that = this;
+      let response = await this.$putRequest(process.env.VUE_APP_API + "/supervisors/" + this.supervisor.id, this.supervisor);
+      if (response.success) {
+        if(!that.file)
+        {
+        //   this.$createdSuccess();
+        //   that.resource_id = response.resource_id;
+          this.$router.push({
+            name: "Supervisores"
+          });
+        }
+      }
+    },
+  },
+};
+  </script>

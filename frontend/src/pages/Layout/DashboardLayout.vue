@@ -19,7 +19,7 @@
         <md-icon>domain</md-icon>
         <p>Establecimientos</p>
       </sidebar-link>
-      <sidebar-link to="/blank">
+      <sidebar-link to="/supervisores">
         <md-icon>book</md-icon>
         <p>Supervisores</p>
       </sidebar-link>

@@ -17,9 +17,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App";
+import PortalVue from 'portal-vue'
 
 // router setup
 import routes from "./routes/routes";
+import axios from 'axios'
 
 // Plugins
 import GlobalComponents from "./globalComponents";
@@ -28,6 +30,10 @@ import Notifications from "./components/NotificationPlugin";
 
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue);
+Vue.use(PortalVue)
 
 import Chartist from "chartist";
 
@@ -45,12 +51,112 @@ Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 
+Vue.prototype.$getRequest = function(url) {
+    return axios
+            .get(url, {
+              headers: {
+                'Accept'       : 'application/json',
+                // 'Authorization': localStorage._token_type + " " + localStorage._token
+              }
+            })
+            .then(result => {
+              this.$showErrors(result);
+              return result.data;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+  }
+
+  Vue.prototype.$postRequest = function(url, params) {
+    return axios
+            .post(url, params, {
+              headers: {
+                'Accept'       : 'application/json',
+                // 'Authorization': localStorage._token_type + " " + localStorage._token
+              }
+            })
+            .then(result => {
+              this.$showErrors(result);
+              return result.data;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+  }
+
+  Vue.prototype.$putRequest = function(url, params) {
+    return axios
+            .put(url, params, {
+              headers: {
+                'Accept'       : 'application/json',
+                // 'Authorization': localStorage._token_type + " " + localStorage._token
+              }
+            })
+            .then(result => {
+              this.$showErrors(result);
+              return result.data;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+  }
+
+  Vue.prototype.$deleteRequest = function(url) {
+    return axios
+            .delete(url, {
+              headers: {
+                'Accept'       : 'application/json',
+                // 'Authorization': localStorage._token_type + " " + localStorage._token
+              }
+            })
+            .then(result => {
+              this.$showErrors(result);
+              return result.data;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+  }
+
+  Vue.prototype.$showErrors = function(result) {
+    if(result.status == 401)
+    {
+      this.$swal.fire('Error de autenticación',
+        'Su sesión ha expirado',
+        'error'
+      );
+      this.$router.replace({ path: "/login" });
+    }
+
+    if(!result.data.success)
+    {
+      let errors = ``;
+      for (const property in result.data.errors) {
+        errors += `${result.data.errors[property]} <br>`;
+        if (property=="auth" && result.data.errors[property]=="Unauthenticated.") {
+          this.$swal.fire('Error de autenticación',
+            'Su sesión ha expirado',
+            'error'
+          );
+          this.$router.replace({ path: "/login" });
+        }
+      }
+      if (errors.length > 0) {
+        this.$swal.fire('Error',
+          errors,
+          'error'
+        );
+      }
+    }
+  }
+
 /* eslint-disable no-new */
 new Vue({
-  el: "#app",
-  render: (h) => h(App),
-  router,
-  data: {
-    Chartist: Chartist,
-  },
-});
+    el: "#app",
+    render: (h) => h(App),
+    router,
+    data: {
+      Chartist: Chartist,
+    },
+  });

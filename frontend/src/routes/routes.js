@@ -7,6 +7,12 @@ import SupervisorCrear from "@/pages/Supervisor/Crear.vue";
 import SupervisorVer from "@/pages/Supervisor/Ver.vue";
 import SupervisorEditar from "@/pages/Supervisor/Editar.vue";
 
+//  ESTABLECIMIENTOS
+import EstablecimientoListado from "@/pages/Establecimiento/Listado.vue";
+import EstablecimientoCrear from "@/pages/Establecimiento/Crear.vue";
+import EstablecimientoVer from "@/pages/Establecimiento/Ver.vue";
+import EstablecimientoEditar from "@/pages/Establecimiento/Editar.vue";
+
 const routes = [
   {
     path: "/",
@@ -42,6 +48,26 @@ const routes = [
         path: "supervisor/editar/:id",
         name: "EditarSupervisor",
         component: SupervisorEditar,
+      },
+      {
+        path: "establecimientos",
+        name: "Establecimientos",
+        component: EstablecimientoListado,
+      },
+      {
+        path: "establecimientos/crear",
+        name: "CrearEstablecimiento",
+        component: EstablecimientoCrear,
+      },
+      {
+        path: "establecimiento/:id",
+        name: "Establecimiento",
+        component: EstablecimientoVer,
+      },
+      {
+        path: "establecimiento/editar/:id",
+        name: "EditarEstablecimiento",
+        component: EstablecimientoEditar,
       },
     ],
   },

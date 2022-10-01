@@ -39,8 +39,8 @@ import Chartist from "chartist";
 
 // configure router
 const router = new VueRouter({
-  routes, // short for routes: routes
-  linkExactActiveClass: "nav-item active",
+    routes, // short for routes: routes
+    linkExactActiveClass: "nav-item active",
 });
 
 Vue.prototype.$Chartist = Chartist;
@@ -51,105 +51,84 @@ Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 
-Vue.prototype.$getRequest = function(url) {
+Vue.prototype.$showNotification = function (type, message, icon) {
+    this.$notify(
+        {
+            message: message,
+            icon: icon,
+            horizontalAlign: 'right',
+            verticalAlign: 'top',
+            type: type
+        })
+}
+
+Vue.prototype.$getRequest = function (url) {
     return axios
-            .get(url, {
-              headers: {
-                'Accept'       : 'application/json',
+        .get(url, {
+            headers: {
+                'Accept': 'application/json',
                 // 'Authorization': localStorage._token_type + " " + localStorage._token
-              }
-            })
-            .then(result => {
-              this.$showErrors(result);
-              return result.data;
-            })
-            .catch(error => {
-              console.log(error);
-            })
-  }
+            }
+        })
+        .then(result => {
+            return result.data;
+        })
+        .catch(error => {
+            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+            console.log(error);
+        })
+}
 
-  Vue.prototype.$postRequest = function(url, params) {
+Vue.prototype.$postRequest = function (url, params) {
     return axios
-            .post(url, params, {
-              headers: {
-                'Accept'       : 'application/json',
+        .post(url, params, {
+            headers: {
+                'Accept': 'application/json',
                 // 'Authorization': localStorage._token_type + " " + localStorage._token
-              }
-            })
-            .then(result => {
-              this.$showErrors(result);
-              return result.data;
-            })
-            .catch(error => {
-              console.log(error);
-            })
-  }
+            }
+        })
+        .then(result => {
+            return result.data;
+        })
+        .catch(error => {
+            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+            console.log(error);
+        })
+}
 
-  Vue.prototype.$putRequest = function(url, params) {
+Vue.prototype.$putRequest = function (url, params) {
     return axios
-            .put(url, params, {
-              headers: {
-                'Accept'       : 'application/json',
+        .put(url, params, {
+            headers: {
+                'Accept': 'application/json',
                 // 'Authorization': localStorage._token_type + " " + localStorage._token
-              }
-            })
-            .then(result => {
-              this.$showErrors(result);
-              return result.data;
-            })
-            .catch(error => {
-              console.log(error);
-            })
-  }
+            }
+        })
+        .then(result => {
+            return result.data;
+        })
+        .catch(error => {
+            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+            console.log(error);
+        })
+}
 
-  Vue.prototype.$deleteRequest = function(url) {
+Vue.prototype.$deleteRequest = function (url) {
     return axios
-            .delete(url, {
-              headers: {
-                'Accept'       : 'application/json',
+        .delete(url, {
+            headers: {
+                'Accept': 'application/json',
                 // 'Authorization': localStorage._token_type + " " + localStorage._token
-              }
-            })
-            .then(result => {
-              this.$showErrors(result);
-              return result.data;
-            })
-            .catch(error => {
-              console.log(error);
-            })
-  }
-
-  Vue.prototype.$showErrors = function(result) {
-    if(result.status == 401)
-    {
-      this.$swal.fire('Error de autenticación',
-        'Su sesión ha expirado',
-        'error'
-      );
-      this.$router.replace({ path: "/login" });
-    }
-
-    if(!result.data.success)
-    {
-      let errors = ``;
-      for (const property in result.data.errors) {
-        errors += `${result.data.errors[property]} <br>`;
-        if (property=="auth" && result.data.errors[property]=="Unauthenticated.") {
-          this.$swal.fire('Error de autenticación',
-            'Su sesión ha expirado',
-            'error'
-          );
-          this.$router.replace({ path: "/login" });
-        }
-      }
-      if (errors.length > 0) {
-        this.$swal.fire('Error',
-          errors,
-          'error'
-        );
-      }
-    }
-  }
+            }
+        })
+        .then(result => {
+            return result.data;
+        })
+        .catch(error => {
+            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+            console.log(error);
+        })
+}
 
 /* eslint-disable no-new */
 new Vue({
@@ -157,6 +136,6 @@ new Vue({
     render: (h) => h(App),
     router,
     data: {
-      Chartist: Chartist,
+        Chartist: Chartist,
     },
-  });
+});

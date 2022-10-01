@@ -22,6 +22,7 @@ import PortalVue from 'portal-vue'
 // router setup
 import routes from "./routes/routes";
 import axios from 'axios'
+import vSelect from 'vue-select'
 
 // Plugins
 import GlobalComponents from "./globalComponents";
@@ -50,6 +51,7 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+Vue.component('v-select', vSelect)
 
 Vue.prototype.$showNotification = function (type, message, icon) {
     this.$notify(

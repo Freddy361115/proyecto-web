@@ -15,7 +15,7 @@
         <md-icon >person</md-icon>
         <p>Profesores</p>
       </sidebar-link>
-      <sidebar-link to="/blank">
+      <sidebar-link to="/establecimientos">
         <md-icon>domain</md-icon>
         <p>Establecimientos</p>
       </sidebar-link>

@@ -37,14 +37,14 @@ class EstablecimientoController extends Controller
     public function store(Request $request)
     {
         //
-        $post = $request->all();    
+        $post = $request->all();
     $data = new Establecimiento;
     $data->nombre = $post['nombre'];
     $data->direccion = $post['direccion'];
     $data->telefono = $post['telefono'];
     $data->email = $post['email'];
-    $data->codigo_establecimiento = $post['codigo_establecimiento'];    
-    $data->id_supervisor = $post['id_supervisor'];  
+    $data->codigo_establecimiento = $post['codigo_establecimiento'];
+    $data->id_supervisor = $post['id_supervisor'];
 
     try {
         $data->save();
@@ -66,7 +66,7 @@ class EstablecimientoController extends Controller
     {
         //
         try {
-            return $data =  Establecimiento::where('id_establecimiento',$id)->get();
+            return $data =  Establecimiento::where('id_establecimiento',$id)->first();
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
         }
@@ -99,25 +99,25 @@ class EstablecimientoController extends Controller
                 'nombre' => $post['nombre'],
                 'direccion' => $post['direccion'],
                 'telefono'  => $post['telefono'],
-                'email' => $post['email'], 
+                'email' => $post['email'],
                 'codigo_establecimiento' => $post['codigo_establecimiento'],
                 'id_supervisor' => $post['id_supervisor']]);
                 try {
                     Establecimiento::where('id_establecimiento',$id)->update (
                         ['estado'=>$post['estado']]
                     );
-                    
+
                 }
                 catch(\Throwable $th){
-                    
-                } 
+
+                }
                 return response()->json(array('success' => true, 'messagge'=> 'Registro actualizado correctamente' ), 200);
         } catch (\Throwable $th) {
-            
+
             return response()->json(array('success' => false,'messagge'=> $th), 404);
         }
-    
-    
+
+
     }
 
     /**
@@ -128,12 +128,12 @@ class EstablecimientoController extends Controller
      */
     public function destroy($id)
     {
-        
-        
+
+
     try {
         Establecimiento::where('id_establecimiento',$id)
         ->update(['estado'=> false]);
-        
+
     return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);
     } catch (\Throwable $th) {
         return response()->json(array('success' => false,'messagge'=> $th), 404);

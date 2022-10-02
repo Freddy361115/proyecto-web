@@ -13,6 +13,12 @@ import EstablecimientoCrear from "@/pages/Establecimiento/Crear.vue";
 import EstablecimientoVer from "@/pages/Establecimiento/Ver.vue";
 import EstablecimientoEditar from "@/pages/Establecimiento/Editar.vue";
 
+// PROFESORES
+import ProfesorListado from "@/pages/Profesor/Listado.vue";
+import ProfesorCrear from "@/pages/Profesor/Crear.vue";
+import ProfesorVer from "@/pages/Profesor/Ver.vue";
+import ProfesorEditar from "@/pages/Profesor/Editar.vue";
+
 const routes = [
   {
     path: "/",
@@ -68,6 +74,26 @@ const routes = [
         path: "establecimiento/editar/:id",
         name: "EditarEstablecimiento",
         component: EstablecimientoEditar,
+      },
+      {
+        path: "profesores",
+        name: "Profesores",
+        component: ProfesorListado,
+      },
+      {
+        path: "profesores/crear",
+        name: "CrearProfesor",
+        component: ProfesorCrear,
+      },
+      {
+        path: "profesor/:id",
+        name: "Profesor",
+        component: ProfesorVer,
+      },
+      {
+        path: "profesor/editar/:id",
+        name: "EditarProfesor",
+        component: ProfesorEditar,
       },
     ],
   },

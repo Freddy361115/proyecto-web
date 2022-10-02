@@ -11,7 +11,7 @@
         <md-icon>home</md-icon>
         <p>Inicio</p>
       </sidebar-link>
-      <sidebar-link to="/blank">
+      <sidebar-link to="/profesores">
         <md-icon >person</md-icon>
         <p>Profesores</p>
       </sidebar-link>

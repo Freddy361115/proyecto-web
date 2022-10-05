@@ -23,7 +23,7 @@ class CreateNotificacionsTable extends Migration
             $table->string('descripcion');
             $table->dateTime('fecha_inicial');
             $table->dateTime('fecha_final');
-            $table->string('filepath');
+            $table->string('filepath')->nullable();
             $table->foreign('id_profesor')->references('id')->on('profesors');
             $table->foreign('id_establecimiento')->references('id_establecimiento')->on('establecimientos');            
             $table->foreign('id_tipo_actividad')->references('id')->on('tipo_notificacions');

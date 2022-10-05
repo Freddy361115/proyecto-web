@@ -29,6 +29,7 @@ class AddForeignKeyProfesorsTable extends Migration
     {
         Schema::table('profesors', function (Blueprint $table) {
             //
+            $table->dropForeign('profesors_id_establecimiento_foreign');
         });
     }
 }

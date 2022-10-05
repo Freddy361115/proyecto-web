@@ -65,6 +65,7 @@ if ($validator->fails()) {
     {  
       //store file into document folder
       /* $file = $request->file->store('public/documents'); */
+      $contador =0;
       $profesores = Profesor::where('estado','=',true)->get();
       foreach ($profesores as $profesor) {
         $notificacion = new Notificacion();
@@ -77,15 +78,15 @@ if ($validator->fails()) {
         $notificacion->id_profesor = $profesor->id; 
         $notificacion->id_establecimiento = $profesor->id_establecimiento;       
         $notificacion->save();
+        $contador++;
 
-        return response()->json([
-            "success" => true,
-            "message" => "Notificacion creada correctamente.",
-            "file" => $notificacion->id
-        ]);
-    
         
       }
+      return response()->json([
+        "success" => true,
+        "message" => $contador . " Notificacion(es) creada(s) correctamente.",
+        
+    ]);
       /* 
       //store your file into database
       $notificacion = new Notificacion();
@@ -101,11 +102,13 @@ if ($validator->fails()) {
       $notificacion->save();
     */   }  //END IF   
 
-    if($request->id_tipo_actividad == 3)
+    if($request->id_tipo_actividad == 3 || $request->id_tipo_actividad == 2)
     {
+        $contador=0;
           
           if($request->has('id_profesor') && !($request->has('id_establecimiento')) ){
-              $data =  Profesor::findOrFail($id);
+          $id=$request->id_profesor;
+          $data =  Profesor::findOrFail($id);
           $notificacion = new Notificacion();
           $notificacion->id_profesor = $data->id; 
           $notificacion->id_establecimiento = $data->id_establecimiento;        
@@ -115,10 +118,12 @@ if ($validator->fails()) {
           $notificacion->fecha_inicial = $request->fecha_inicial;
           $notificacion->fecha_final = $request->fecha_final;
           $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
+          $contador++;
           }
   
           if($request->has('id_establecimiento')){
               //Regresando todos lo profesores que pertenezcan al establecimiento.
+              $id=$request->id_establecimiento;
               $profesores =  Profesor::where('id_establecimiento',$id)->get();
               foreach ($profesores as $profesor) {
                   $notificacion = new Notificacion();
@@ -130,63 +135,20 @@ if ($validator->fails()) {
                   $notificacion->fecha_inicial = $request->fecha_inicial;
                   $notificacion->fecha_final = $request->fecha_final;
                   $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
+                  $notificacion->save();
+                  $contador++;
                       }
           
           }
   
-  
           $notificacion->save();
           return response()->json([
             "success" => true,
-            "message" => "File successfully uploaded",
-            "file" => $notificacion->id
+            "message" => $contador . " Notificacion(es) creada(s) correctamente."
+            
         ]);
   
       }
-
-      if($request->id_tipo_actividad == 2)
-      {
-            
-            if($request->has('id_profesor') && !($request->has('id_establecimiento')) ){
-                $data =  Profesor::findOrFail($id);
-            $notificacion = new Notificacion();
-            $notificacion->id_profesor = $data->id; 
-            $notificacion->id_establecimiento = $data->id_establecimiento;        
-            $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
-            $notificacion->titulo_actividad = $request->titulo_actividad;
-            $notificacion->descripcion = $request->descripcion;
-            $notificacion->fecha_inicial = $request->fecha_inicial;
-            $notificacion->fecha_final = $request->fecha_final;
-            $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
-            }
-    
-            if($request->has('id_establecimiento')){
-                //Regresando todos lo profesores que pertenezcan al establecimiento.
-                $profesores =  Profesor::where('id_establecimiento',$id)->get();
-                foreach ($profesores as $profesor) {
-                    $notificacion = new Notificacion();
-                    $notificacion->id_profesor = $profesor->id; 
-                    $notificacion->id_establecimiento = $profesor->id_establecimiento;        
-                    $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
-                    $notificacion->titulo_actividad = $request->titulo_actividad;
-                    $notificacion->descripcion = $request->descripcion;
-                    $notificacion->fecha_inicial = $request->fecha_inicial;
-                    $notificacion->fecha_final = $request->fecha_final;
-                    $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
-                        }
-            
-            }
-    
-    
-            $notificacion->save();
-            return response()->json([
-              "success" => true,
-              "message" => "File successfully uploaded",
-              "file" => $notificacion->id
-          ]);
-    
-        }
-      
   }
 
 
@@ -228,27 +190,28 @@ if ($validator->fails()) {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,  $id)
-    {
-        //
-        $validator = Validator::make($request->all(), 
-        [ 
-        'id_tipo_actividad' => 'required',
-        
-       ]);
+    {   
        
-        if ($validator->fails()) {          
-            return response()->json(['error'=>$validator->errors()], 401);                        
-         }  
+        try {
+            $notificacion = Notificacion::findOrFail($id);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "message" => " Notificacion no encontrada"
+                
+            ]);
+        }
+         
 
-         $notificacion = Notificacion::findOrFail($id);
-         if($notificacion->id_tipo_actividad == 1){
+
+         if($notificacion->id_tipo_actividad == 1 || $notificacion->id_tipo_actividad == 3){
             $notificacion->estado = false;
             $notificacion->save();
-
-         }
-         if($notificacion->id_tipo_actividad == 3){
-            $notificacion->estado = false;
-            $notificacion->save();
+            return response()->json([
+                "success" => true,
+                "message" => " Notificacion modificada correctamente."
+                
+            ]);
 
          }
 
@@ -258,7 +221,14 @@ if ($validator->fails()) {
             $file = $request->file->store('public/documents'); 
             $notificacion->filepath = $file;
             $notificacion->estado=false;
+            $notificacion->save();
             }
+
+            return response()->json([
+                "success" => true,
+                "message" => " Notificacion modificada correctamente."
+                
+            ]);
 
          }
 
@@ -273,10 +243,10 @@ if ($validator->fails()) {
      */
     public function destroy($id)
     {
-        //
+        try {    
         $notificacion = Notificacion::findOrFail($id);
     $notificacion->estado=false;
-    try {
+    
         $notificacion->save();
     return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);
     } catch (\Throwable $th) {

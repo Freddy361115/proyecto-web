@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
     
 });
@@ -27,8 +27,21 @@ Route::resource('roles','App\Http\Controllers\RoleController');
 Route::resource('tiponotificacion','App\Http\Controllers\TipoNotificacionController');
 Route::resource('notificacion','App\Http\Controllers\NotificacionController');
 
-Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);	
-	
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signUp');
+
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+    Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth:api');
+
+    });
 });
 

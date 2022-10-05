@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\establecimiento;
+use App\MOdels\supervisor;
 use Illuminate\Http\Request;
 
 class EstablecimientoController extends Controller
@@ -66,9 +67,13 @@ class EstablecimientoController extends Controller
     {
         //
         try {
-            return $data =  Establecimiento::where('id_establecimiento',$id)->first();
+            $data =  Establecimiento::where('id_establecimiento',$id)->first();
+            $supervisor = Supervisor::findOrFail($data->id_supervisor);
+            $key="nombre_supervisor";
+            $data[$key]=$supervisor->nombres ." ". $supervisor->apellidos;
+            return $data;
         } catch (\Throwable $th) {
-            return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
+            return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado '), 404);
         }
     }
 

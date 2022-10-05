@@ -62,6 +62,17 @@
                                     <md-input v-model="profesor.telefono" maxlength="8" type="text"></md-input>
                                 </md-field>
                             </div>
+                            <div class="md-layout-item md-small-size-100 md-size-33">
+                                <span>Establecimiento</span>
+                                <md-field>
+                                    <v-select :loading="loading" :options="establecimientos" style="width:100%" type="text"
+                                        name="establecimiento" class="rounded" v-model="establecimiento_selected">
+                                        <template #no-options>
+                                            No hay items disponibles
+                                        </template>
+                                    </v-select>
+                                </md-field>
+                            </div>
                             <div class="md-layout-item md-size-100 text-right">
                                 <md-button class="md-raised md-success" @click="save">Guardar</md-button>
                                 <md-button class="md-raised md-default" @click="goBack">Cancelar</md-button>
@@ -84,18 +95,35 @@ export default {
             default: "",
         },
     },
+    async mounted() {
+        let that = this;
+        this.loading = true;
+        this.establecimiento_data = await this.$getRequest(process.env.VUE_APP_API + '/establecimientos');
+        this.establecimiento_data.forEach(sup => {
+            that.establecimientos.push({
+                label: sup.nombre,
+                code: sup.id_establecimiento
+            });
+        });
+        this.loading = false;
+    },
     data() {
         return {
+            establecimiento_data : null,
+            establecimiento_selected: null,
+            loading: false,
+            establecimientos: [],
             profesor: {
-                nombres: '',
-                apellidos: '',
-                nombre_usuario: '',
-                direccion: '',
-                telefono: '',
-                fecha_nacimiento: '',
-                email: '',
-                dpi: '',
-                password: ''
+                nombres           : '',
+                apellidos         : '',
+                nombre_usuario    : '',
+                direccion         : '',
+                telefono          : '',
+                fecha_nacimiento  : '',
+                email             : '',
+                dpi               : '',
+                password          : '',
+                id_establecimiento: null,
             }
         };
     },
@@ -107,6 +135,7 @@ export default {
         },
         async save() {
             let that = this;
+            this.profesor.id_establecimiento = this.establecimiento_selected.code;
             let response = await this.$postRequest(process.env.VUE_APP_API + "/profesores", this.profesor);
             if (response.success) {
                 this.$showNotification('success', 'Profesor creado correctamente', 'check');

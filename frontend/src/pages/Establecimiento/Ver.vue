@@ -14,6 +14,7 @@
                                 <md-list-item><b>Email: </b>{{establecimiento.email}}</md-list-item>
                                 <md-list-item><b>Telefono: </b>{{establecimiento.telefono}}</md-list-item>
                                 <md-list-item><b>Codigo Establecimiento: </b>{{establecimiento.codigo_establecimiento}}</md-list-item>
+                                <md-list-item><b>Supervisor: </b>{{establecimiento.nombre_supervisor}}</md-list-item>
                             </md-list>
                         </div>
                     </md-card-content>

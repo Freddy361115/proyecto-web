@@ -15,6 +15,7 @@
                                 <md-list-item><b>Direccion: </b>{{profesor.direccion}}</md-list-item>
                                 <md-list-item><b>Email: </b>{{profesor.email}}</md-list-item>
                                 <md-list-item><b>Telefono: </b>{{profesor.telefono}}</md-list-item>
+                                <md-list-item><b>Establecimiento: </b>{{profesor.nombre_establecimiento}}</md-list-item>
                                 <md-list-item><b>Fecha Nacimiento: </b>{{profesor.fecha_nacimiento}}</md-list-item>
                             </md-list>
                         </div>

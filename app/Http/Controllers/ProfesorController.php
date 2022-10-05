@@ -57,6 +57,7 @@ public function store(Request $request)
     $data->email = $post['email'];
     $data->dpi = $post['dpi'];
     $data->direccion = $post['direccion'];    
+    $data->id_establecimiento = $post['id_establecimiento'];
     $data->id_usuario = $dataUser->id;
 
     try {
@@ -113,6 +114,7 @@ public function update(Request $request, $id)
     $data->email = $post['email'];
     $data->dpi = $post['dpi'];
     $data->direccion = $post['direccion'];
+    $data->id_establecimiento = $post['id_establecimiento'];
     $data->id_usuario = $post['id_usuario'];
     
 

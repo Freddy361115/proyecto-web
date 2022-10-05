@@ -24,6 +24,8 @@ Route::resource('supervisors','App\Http\Controllers\SupervisorController');
 Route::resource('establecimientos','App\Http\Controllers\EstablecimientoController');
 Route::resource('grados','App\Http\Controllers\GradoController');
 Route::resource('roles','App\Http\Controllers\RoleController');
+Route::resource('tiponotificacion','App\Http\Controllers\TipoNotificacionController');
+Route::resource('notificacion','App\Http\Controllers\NotificacionController');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);	

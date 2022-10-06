@@ -23,6 +23,10 @@
         <md-icon>book</md-icon>
         <p>Supervisores</p>
       </sidebar-link>
+      <sidebar-link to="/notificaciones">
+        <md-icon>notifications</md-icon>
+        <p>Notificaciones</p>
+      </sidebar-link>
     </side-bar>
 
     <div class="main-panel">

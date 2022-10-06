@@ -19,6 +19,11 @@ import ProfesorCrear from "@/pages/Profesor/Crear.vue";
 import ProfesorVer from "@/pages/Profesor/Ver.vue";
 import ProfesorEditar from "@/pages/Profesor/Editar.vue";
 
+// NOTIFICACIONES
+import NotificacionListado from "@/pages/Notificacion/Listado.vue";
+import NotificacionCrear from "@/pages/Notificacion/Crear.vue";
+import NotificacionVer from "@/pages/Notificacion/Ver.vue";
+
 const routes = [
   {
     path: "/",
@@ -94,6 +99,21 @@ const routes = [
         path: "profesor/editar/:id",
         name: "EditarProfesor",
         component: ProfesorEditar,
+      },
+      {
+        path: "notificaciones",
+        name: "Notificaciones",
+        component: NotificacionListado,
+      },
+      {
+        path: "notificaciones/crear",
+        name: "CrearNotificacion",
+        component: NotificacionCrear,
+      },
+      {
+        path: "notificaciones/:id",
+        name: "Notificacion",
+        component: NotificacionVer,
       },
     ],
   },

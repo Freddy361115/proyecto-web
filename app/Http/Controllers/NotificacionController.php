@@ -17,7 +17,8 @@ class NotificacionController extends Controller
     public function index()
     {
         //
-        return Notificacion::all();
+        return Notificacion::where("estado","=",true)->get();
+        
     }
 
     /**
@@ -118,7 +119,9 @@ if ($validator->fails()) {
           $notificacion->fecha_inicial = $request->fecha_inicial;
           $notificacion->fecha_final = $request->fecha_final;
           $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
+          $notificacion->save();
           $contador++;
+          
           }
   
           if($request->has('id_establecimiento')){
@@ -141,7 +144,7 @@ if ($validator->fails()) {
           
           }
   
-          $notificacion->save();
+          
           return response()->json([
             "success" => true,
             "message" => $contador . " Notificacion(es) creada(s) correctamente."

@@ -28,7 +28,7 @@ Route::resource('grados','App\Http\Controllers\GradoController');
 Route::resource('roles','App\Http\Controllers\RoleController');
 Route::resource('tiponotificacion','App\Http\Controllers\TipoNotificacionController');
 Route::resource('notificacion','App\Http\Controllers\NotificacionController');
-Route::get('misnotificaciones/{user}','App\Http\Controllers\NotificacionController@getNotificationsbyUser');
+Route::get('misnotificaciones/{user}','App\Http\Controllers\NotificacionController@misnotificaciones');
 
 /*
 Route::group(['middleware' => 'auth:api'], function(){

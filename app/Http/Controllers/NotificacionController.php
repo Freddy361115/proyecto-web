@@ -22,10 +22,26 @@ class NotificacionController extends Controller
         
     }
 
-    public function getNotificationsbyUser(User $user){
+    public function misnotificaciones(User $user){
+        try {
+            //code...
+            try {
+                $profesor = Profesor::where("id_usuario","=",$user->id)->get();
+                return Notificacion::where("id_profesor","=",$profesor[0]->id)->get();
+            } catch (\Throwable $th) {
+                
+                return Notificacion::where("user_id","=",$user->id)->get();
+            }
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "message" => "No se pudieron obtener las notificaciones" ,
+                
+            ]);
+
+        }
         
-        $profesor = Profesor::where("id_usuario","=",$user->id)->get();
-        return Notificacion::where("id_profesor","=",$profesor->id)->get();
     }
 
     /**

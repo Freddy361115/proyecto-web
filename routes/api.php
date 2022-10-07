@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'App\Http\Controllers\UserController@login');
 Route::post('register', 'App\Http\Controllers\UserController@register');
+Route::post('details', 'App\Http\Controllers\UserController@details');
+
+//Route::get('notifiacion/{user}/getNotificationbyUser', 'App\Http\Controllers\NotificacionController@getNotificationsbyUser');
+
 
 Route::resource('profesores','App\Http\Controllers\ProfesorController');
 Route::resource('supervisors','App\Http\Controllers\SupervisorController');
@@ -24,6 +28,7 @@ Route::resource('grados','App\Http\Controllers\GradoController');
 Route::resource('roles','App\Http\Controllers\RoleController');
 Route::resource('tiponotificacion','App\Http\Controllers\TipoNotificacionController');
 Route::resource('notificacion','App\Http\Controllers\NotificacionController');
+Route::get('misnotificaciones/{user}','App\Http\Controllers\NotificacionController@getNotificationsbyUser');
 
 /*
 Route::group(['middleware' => 'auth:api'], function(){

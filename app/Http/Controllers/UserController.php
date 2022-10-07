@@ -14,7 +14,15 @@ class UserController extends Controller
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
+            $rol = $user->roles()->get();
+
+
+            
+
             $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+            $success['id'] = $user->id;
+            $success['nombre']=$user->name;
+            $success['id_rol']=$rol[0]->id;
             return response()->json(['success' => $success], $this-> successStatus); 
         } 
         else{ 

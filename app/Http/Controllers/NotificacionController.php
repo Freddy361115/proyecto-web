@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notificacion;
 use App\Models\Profesor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
 
@@ -19,6 +20,12 @@ class NotificacionController extends Controller
         //
         return Notificacion::where("estado","=",true)->get();
         
+    }
+
+    public function getNotificationsbyUser(User $user){
+        
+        $profesor = Profesor::where("id_usuario","=",$user->id)->get();
+        return Notificacion::where("id_profesor","=",$profesor->id)->get();
     }
 
     /**

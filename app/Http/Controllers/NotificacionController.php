@@ -8,6 +8,7 @@ use App\Models\supervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
+use Illuminate\Support\Facades\Storage;
 
 class NotificacionController extends Controller
 {
@@ -262,7 +263,9 @@ if ($validator->fails()) {
     {
         //
         try {
-            return $data =  Notificacion::findOrFail($id);
+            $data =  Notificacion::findOrFail($id);
+            $data->filepathNew = Storage::url($data->filepath);
+            return $data;
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
         }

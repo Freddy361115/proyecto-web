@@ -133,6 +133,30 @@ Vue.prototype.$putRequest = function (url, params) {
         })
 }
 
+
+Vue.prototype.$sendRequestFile = function (url, params) {
+    return axios
+        .post(url, params, {
+            headers: {
+                'Authorization': "Bearer " + localStorage._token,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(result => {
+            return result.data;
+        })
+        .catch(error => {
+            if (error.response.status==401) {
+                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                this.$router.push('login');    
+            }
+            else {
+                this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+                console.log(error);
+            }
+        })
+}
+
 Vue.prototype.$deleteRequest = function (url) {
     return axios
         .delete(url, {

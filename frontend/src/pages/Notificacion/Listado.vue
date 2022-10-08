@@ -18,7 +18,7 @@
                         <div class="md-layout-item md-small-size-100 md-size-33">
                         </div>
                         <div class="md-layout-item md-small-size-100 md-size-33" style="text-align:right;">
-                            <md-button class="md-primary" @click="gotoCreate">Crear Notificación</md-button>
+                            <md-button class="md-primary" @click="gotoCreate" v-if="rol_id == 1">Crear Notificación</md-button>
                         </div>
                     </div>
                     <br>
@@ -37,7 +37,7 @@
                                 <md-button class="md-primary md-just-icon" @click="gotoDetails(data.item.id)">
                                     <md-icon>search</md-icon>
                                 </md-button>
-                                <md-button class="md-danger md-just-icon" @click="showConfirm(data.item.id)">
+                                <md-button class="md-danger md-just-icon" @click="showConfirm(data.item.id)" v-if="rol_id == 1">
                                     <md-icon>delete</md-icon>
                                 </md-button>
                             </template>

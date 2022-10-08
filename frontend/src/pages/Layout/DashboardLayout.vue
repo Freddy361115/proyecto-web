@@ -11,15 +11,15 @@
         <md-icon>home</md-icon>
         <p>Inicio</p>
       </sidebar-link>
-      <sidebar-link to="/profesores">
+      <sidebar-link to="/profesores" v-if="rol_id == 1">
         <md-icon >person</md-icon>
         <p>Profesores</p>
       </sidebar-link>
-      <sidebar-link to="/establecimientos">
+      <sidebar-link to="/establecimientos" v-if="rol_id == 1">
         <md-icon>domain</md-icon>
         <p>Establecimientos</p>
       </sidebar-link>
-      <sidebar-link to="/supervisores">
+      <sidebar-link to="/supervisores" v-if="rol_id == 1">
         <md-icon>book</md-icon>
         <p>Supervisores</p>
       </sidebar-link>
@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       sidebarBackground: "green",
+      rol_id: localStorage.rol_id,
       sidebarBackgroundImage: require("@/assets/img/sidebar-2.jpg"),
     };
   },

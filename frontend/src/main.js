@@ -69,15 +69,21 @@ Vue.prototype.$getRequest = function (url) {
         .get(url, {
             headers: {
                 'Accept': 'application/json',
-                // 'Authorization': localStorage._token_type + " " + localStorage._token
+                'Authorization': "Bearer " + localStorage._token
             }
         })
         .then(result => {
             return result.data;
         })
         .catch(error => {
-            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
-            console.log(error);
+            if (error.response.status==401) {
+                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                this.$router.push('login');    
+            }
+            else {
+                this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+                console.log(error);
+            }
         })
 }
 
@@ -86,15 +92,21 @@ Vue.prototype.$postRequest = function (url, params) {
         .post(url, params, {
             headers: {
                 'Accept': 'application/json',
-                // 'Authorization': localStorage._token_type + " " + localStorage._token
+                'Authorization': "Bearer " + localStorage._token
             }
         })
         .then(result => {
             return result.data;
         })
         .catch(error => {
-            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
-            console.log(error);
+            if (error.response.status==401) {
+                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                this.$router.push('login');    
+            }
+            else {
+                this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+                console.log(error);
+            }
         })
 }
 
@@ -103,15 +115,21 @@ Vue.prototype.$putRequest = function (url, params) {
         .put(url, params, {
             headers: {
                 'Accept': 'application/json',
-                // 'Authorization': localStorage._token_type + " " + localStorage._token
+                'Authorization': "Bearer " + localStorage._token
             }
         })
         .then(result => {
             return result.data;
         })
         .catch(error => {
-            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
-            console.log(error);
+            if (error.response.status==401) {
+                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                this.$router.push('login');    
+            }
+            else {
+                this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+                console.log(error);
+            }
         })
 }
 
@@ -120,15 +138,21 @@ Vue.prototype.$deleteRequest = function (url) {
         .delete(url, {
             headers: {
                 'Accept': 'application/json',
-                // 'Authorization': localStorage._token_type + " " + localStorage._token
+                'Authorization': "Bearer " + localStorage._token
             }
         })
         .then(result => {
             return result.data;
         })
         .catch(error => {
-            this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
-            console.log(error);
+            if (error.response.status==401) {
+                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                this.$router.push('login');    
+            }
+            else {
+                this.$showNotification('danger', 'No se ha podido realizar la operacion.', 'add_alert');
+                console.log(error);
+            }
         })
 }
 

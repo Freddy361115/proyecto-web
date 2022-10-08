@@ -24,7 +24,14 @@ import NotificacionListado from "@/pages/Notificacion/Listado.vue";
 import NotificacionCrear from "@/pages/Notificacion/Crear.vue";
 import NotificacionVer from "@/pages/Notificacion/Ver.vue";
 
+import Login from "@/pages/Login.vue";
+
 const routes = [
+  {
+    path     : '/login',
+    name     : 'Login',
+    component: Login,
+  },
   {
     path: "/",
     component: DashboardLayout,

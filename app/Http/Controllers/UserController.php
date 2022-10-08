@@ -58,9 +58,10 @@ return response()->json(['success'=>$success], $this-> successStatus);
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function details() 
+    public function details(User $user) 
     { 
-        $user = Auth::user(); 
+        //$user = Auth::user(); 
+        return User::findOrFail($user->id);
         return response()->json(['success' => $user], $this-> successStatus); 
     } 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notificacion;
 use App\Models\Profesor;
+use App\Models\supervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
@@ -22,27 +23,97 @@ class NotificacionController extends Controller
         
     }
 
-    public function misnotificaciones(User $user){
+    public function misnotificaciones($id){
         try {
             //code...
-            try {
-                $profesor = Profesor::where("id_usuario","=",$user->id)->get();
+            $user = User::findOrFail($id);
+            $rol = $user->roles()->get();
+            if($rol[0]->id==1){
+                $supervisor = supervisor::where("id_usuario","=",$id)->get();
+                return Notificacion::where("user_id","=",$supervisor[0]->id_usuario)->get();
+            }
+            if($rol[0]->id == 2)
+            {
+                $profesor = Profesor::where("id_usuario","=",$id)->get();
                 return Notificacion::where("id_profesor","=",$profesor[0]->id)->get();
-            } catch (\Throwable $th) {
-                
-                return Notificacion::where("user_id","=",$user->id)->get();
+            } 
+            
             }
             
-        } catch (\Throwable $th) {
+         catch (\Throwable $th) {
             return response()->json([
                 "success" => false,
-                "message" => "No se pudieron obtener las notificaciones" ,
+                "message" => "No se encontro el usuario." ,
                 
             ]);
 
         }
         
     }
+
+    public function misnotificacionesleidas($id){
+        try {
+            //code...
+            $user = User::findOrFail($id);
+            $rol = $user->roles()->get();
+            if($rol[0]->id==1){
+                $supervisor = supervisor::where("id_usuario","=",$id)->get();
+                return response()->json([ "leidas"=>count (Notificacion::where("user_id","=",$supervisor[0]->id_usuario)
+                                     ->where("estado","=",false)->get()),]);
+            }
+            if($rol[0]->id == 2)
+            {
+                $profesor = Profesor::where("id_usuario","=",$id)->get();
+                return response()->json ([
+                    "leidas" => count(Notificacion::where("id_profesor","=",$profesor[0]->id)->where("estado","=",false)->get()),
+                ]);
+            } 
+            
+            }
+            
+         catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "message" => "No se encontro el usuario." ,
+                
+            ]);
+
+        }
+        
+    }
+
+    public function misnotificacionesnoleidas($id){
+        try {
+            //code...
+            $user = User::findOrFail($id);
+            $rol = $user->roles()->get();
+            if($rol[0]->id==1){
+                $supervisor = supervisor::where("id_usuario","=",$id)->get();
+                return response()->json([ "sin leer"=>count (Notificacion::where("user_id","=",$supervisor[0]->id_usuario)
+                                     ->where("estado","=",true)->get()),]);
+            }
+            if($rol[0]->id == 2)
+            {
+                $profesor = Profesor::where("id_usuario","=",$id)->get();
+                return response()->json ([
+                    "sin leer" => count(Notificacion::where("id_profesor","=",$profesor[0]->id)->where("estado","=",true)->get()),
+                ]);
+            } 
+            
+            }
+            
+         catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "message" => "No se encontro el usuario." ,
+                
+            ]);
+
+        }
+        
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

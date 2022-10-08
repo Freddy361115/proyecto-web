@@ -33,6 +33,10 @@ import Notifications from "./components/NotificationPlugin";
 import MaterialDashboard from "./material-dashboard";
 import BootstrapVue from 'bootstrap-vue'
 
+// Import Bootstrap and BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 Vue.use(BootstrapVue);
 Vue.use(PortalVue)
 

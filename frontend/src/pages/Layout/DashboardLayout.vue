@@ -23,7 +23,7 @@
         <md-icon>book</md-icon>
         <p>Supervisores</p>
       </sidebar-link>
-      <sidebar-link to="/notificaciones">
+      <sidebar-link to="/notificaciones" v-if="rol_id == 1">
         <md-icon>notifications</md-icon>
         <p>Notificaciones</p>
       </sidebar-link>

@@ -14,13 +14,21 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Admin Admin',
-            'email' => 'admin@material.com',
+      $id= DB::table('users')->insertGetId([
+            'name' => 'Supervisor Administrador',
+            'email' => 'supervisor@administrador.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('secret'),
+            'password' => Hash::make('super.admin'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        DB::table('role_user')->insert([
+            'role_id' =>1,
+            'user_id' => $id            
+        ]);
+        
+
+        
     }
 }

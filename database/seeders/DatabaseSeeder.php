@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $this->call([UsersTableSeeder::class]);
+    {        
         $this->call([RoleSeeder::class]);
         $this->call([TipoNotificacionSeeder::class]);
+        $this->call([UsersTableSeeder::class]);
     }
 }

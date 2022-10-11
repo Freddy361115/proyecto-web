@@ -163,6 +163,9 @@ if ($validator->fails()) {
       /* $file = $request->file->store('public/documents'); */
       $contador =0;
       $profesores = Profesor::where('estado','=',true)->get();
+      if($request->has('sharedfile')){
+        $file = $request->sharedfile->store('public/documents'); 
+      }
       foreach ($profesores as $profesor) {
         $notificacion = new Notificacion();
         $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
@@ -170,6 +173,9 @@ if ($validator->fails()) {
         $notificacion->descripcion = $request->descripcion;
         $notificacion->fecha_inicial = $request->fecha_inicial;
         $notificacion->fecha_final = $request->fecha_final;
+        if($request->has('sharedfile')){            
+            $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
+        }        
         $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
         $notificacion->id_profesor = $profesor->id; 
         $notificacion->id_establecimiento = $profesor->id_establecimiento;       
@@ -211,6 +217,10 @@ if ($validator->fails()) {
           $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
           $notificacion->titulo_actividad = $request->titulo_actividad;
           $notificacion->descripcion = $request->descripcion;
+          if($request->has('sharedfile')){
+            $file = $request->sharedfile->store('public/documents'); 
+            $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
+        } 
           $notificacion->fecha_inicial = $request->fecha_inicial;
           $notificacion->fecha_final = $request->fecha_final;
           $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
@@ -223,6 +233,9 @@ if ($validator->fails()) {
               //Regresando todos lo profesores que pertenezcan al establecimiento.
               $id=$request->id_establecimiento;
               $profesores =  Profesor::where('id_establecimiento',$id)->get();
+              if($request->has('sharedfile')){
+                $file = $request->sharedfile->store('public/documents'); 
+              }
               foreach ($profesores as $profesor) {
                   $notificacion = new Notificacion();
                   $notificacion->id_profesor = $profesor->id; 
@@ -230,6 +243,9 @@ if ($validator->fails()) {
                   $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
                   $notificacion->titulo_actividad = $request->titulo_actividad;
                   $notificacion->descripcion = $request->descripcion;
+                  if($request->has('sharedfile')){                    
+                    $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
+                } 
                   $notificacion->fecha_inicial = $request->fecha_inicial;
                   $notificacion->fecha_final = $request->fecha_final;
                   $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)
@@ -265,6 +281,7 @@ if ($validator->fails()) {
         try {
             $data =  Notificacion::findOrFail($id);
             $data->filepathNew = Storage::url($data->filepath);
+            $data->sharedfilepathNew = Storage::url($data->sharedfilepath);
             return $data;
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);

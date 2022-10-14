@@ -26,7 +26,8 @@ class NotificacionController extends Controller
         ->join('establecimientos','notificacions.id_establecimiento','=','establecimientos.id_establecimiento')
         ->join('profesors','notificacions.id_profesor','=','profesors.id')
         ->select('notificacions.*', 'tipo_notificacions.descripcion','establecimientos.nombre',
-        DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"))
+        DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"),
+        DB::raw("IF(notificacions.estado = TRUE,'NO LEIDA','LEIDA') AS state"))
         ->get();
         
     }
@@ -215,7 +216,7 @@ if ($validator->fails()) {
     {
         $contador=0;
           
-          if($request->has('id_profesor') && !($request->has('id_establecimiento')) ){
+          if(!is_null($request->id_profesor) && is_null($request->id_establecimiento) ){
           $id=$request->id_profesor;
           $data =  Profesor::findOrFail($id);
           $notificacion = new Notificacion();
@@ -224,7 +225,7 @@ if ($validator->fails()) {
           $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
           $notificacion->titulo_actividad = $request->titulo_actividad;
           $notificacion->descripcion = $request->descripcion;
-          if($request->has('sharedfile')){
+          if(!is_null($request->sharedfile)){
             $file = $request->sharedfile->store('public/documents'); 
             $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
         } 
@@ -236,11 +237,11 @@ if ($validator->fails()) {
           
           }
   
-          if($request->has('id_establecimiento')){
+          if(!is_null($request->id_establecimiento)){
               //Regresando todos lo profesores que pertenezcan al establecimiento.
               $id=$request->id_establecimiento;
               $profesores =  Profesor::where('id_establecimiento',$id)->get();
-              if($request->has('sharedfile')){
+              if(!is_null($request->sharedfile)){
                 $file = $request->sharedfile->store('public/documents'); 
               }
               foreach ($profesores as $profesor) {
@@ -250,7 +251,7 @@ if ($validator->fails()) {
                   $notificacion->id_tipo_actividad = $request->id_tipo_actividad;        
                   $notificacion->titulo_actividad = $request->titulo_actividad;
                   $notificacion->descripcion = $request->descripcion;
-                  if($request->has('sharedfile')){                    
+                  if(!is_null($request->sharedfile)){                    
                     $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
                 } 
                   $notificacion->fecha_inicial = $request->fecha_inicial;

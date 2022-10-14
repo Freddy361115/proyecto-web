@@ -8,7 +8,7 @@
                     <span v-if="pending > 0" class="notification">{{pending}}</span>
                     <p class="hidden-lg hidden-md">Notifications</p>
                 </md-button>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-right" style="--bs-dropdown-min-width: 20rem;">
                     <li v-for="noti in notifications"><a href="#" @click="gotoDetails(noti.id)">
                             <md-icon v-if="noti.estado == 1" class="text-danger">warning</md-icon> {{noti.titulo_actividad}}
                         </a></li>

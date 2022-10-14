@@ -41,7 +41,7 @@
                         <div class="md-list-item-content">
                             <drop-down>
                                 <md-button slot="title" class="md-button md-just-icon md-simple" data-toggle="dropdown">
-                                    <md-icon>home</md-icon>
+                                    <md-icon>person</md-icon>
                                     <p class="hidden-lg hidden-md">user</p>
                                 </md-button>
                                 <ul class="dropdown-menu dropdown-menu-right">

@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\Filesystem;
 
 
 class NotificacionController extends Controller
@@ -301,12 +302,22 @@ if ($validator->fails()) {
     {
         //
         try {
-            $data =  Notificacion::findOrFail($id);
-            $data->filepathNew = Storage::url($data->filepath);
-            $data->sharedfilepathNew = Storage::url($data->sharedfilepath);
-            return $data;
+            $data =  Notificacion::join('supervisors','notificacions.user_id','=','supervisors.id_usuario')
+            ->select('notificacions.*',
+            DB::raw("CONCAT(supervisors.nombres,' ',supervisors.apellidos) AS supervisor"))
+            ->where('notificacions.id','=',$id)
+            ->get();
+            //$extension = $data[0]->sharedfilepath->getClientOriginalExtension();
+            $supervisorExtension = pathinfo($data[0]->sharedfilepath, PATHINFO_EXTENSION);
+            $profesorExtension = pathinfo($data[0]->filepath, PATHINFO_EXTENSION);
+
+            $data[0]->filepathNew = Storage::url($data[0]->filepath);
+            $data[0]->sharedfilepathNew = Storage::url($data[0]->sharedfilepath);
+            $data[0]->extensionSupervisor = $supervisorExtension;
+            $data[0]->extensionProfesor = $profesorExtension;
+            return $data[0];
         } catch (\Throwable $th) {
-            return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
+            return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado, detalle: '.$th), 404);
         }
     }
 

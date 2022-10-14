@@ -33,19 +33,12 @@
                             </md-field>
                         </div>
 
-                        <div>
-                            <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                                
-                                <div class="md-layout-item md-small-size-100 md-size-100">
-                                    <md-field>
-                                        <label>Compartir Archivo o Imagen</label>
-                                        <input type="file" id="sharedfile" ref="sharedfile" v-on:change="handleFileUpload()"/>
-                                    </md-field>
-                                </div>
-                                <md-button class="md-round md-success" @click="uploadFile">Subir archivo</md-button>
-                            </div>
-                        </div>        
-
+                        <div class="md-layout-item md-small-size-100 md-size-100">
+                            <span>Compartir Archivo o Imagen</span>
+                            <md-field>
+                                <input type="file" id="sharedfile" ref="sharedfile" v-on:change="handleFileUpload()" />
+                            </md-field>
+                        </div>
 
                         <div class="md-layout-item md-small-size-100 md-size-33">
                             <span>Tipo Notificación</span>
@@ -129,23 +122,23 @@ export default {
     },
     data() {
         return {
-            establecimiento_data: null,
-            profesores_data: null,
-            tipo_noti_data: null,
+            establecimiento_data    : null,
+            profesores_data         : null,
+            tipo_noti_data          : null,
             establecimiento_selected: null,
-            profesor_selected: null,
-            tipo_noti_selected: null,
-            loading: false,
-            establecimientos: [],
-            profesores: [],
-            tipos_notificacion: [],
-            notificacion: {
+            profesor_selected       : null,
+            tipo_noti_selected      : null,
+            loading                 : false,
+            establecimientos        : [],
+            profesores              : [],
+            tipos_notificacion      : [],
+            notificacion            : {
                 titulo_actividad  : '',
                 descripcion       : '',
                 fecha_inicial     : '',
-                fecha_final       : '',                
-                sharedfile        : '',
-                user_id           : 1,
+                fecha_final       : '',
+                sharedfile        : null,
+                user_id           : localStorage.user_id,
                 id_profesor       : null,
                 id_establecimiento: null,
                 id_tipo_actividad : null,
@@ -154,20 +147,12 @@ export default {
     },
     methods: {
         handleFileUpload() {
-            this.notificacion.sharedfile = this.$refs.sharedfile.file[0];
+            this.notificacion.sharedfile = this.$refs.sharedfile.files[0];
         },
         goBack() {
             this.$router.push({
                 name: "Notificaciones"
             })
-        },
-        async uploadFile() {
-            //this.notificacion._method = 'PUT';
-            let response = await this.$sendRequestFile(process.env.VUE_APP_API + "/notificacion", this.notificacion);
-            console.log(response);
-            if (response.success) {
-                this.active = false;
-            }
         },
         async save() {
             let that = this;
@@ -183,8 +168,8 @@ export default {
             if (this.tipo_noti_selected) {
                 this.notificacion.id_tipo_actividad = this.tipo_noti_selected.code;
             }
-            
-            let response = await this.$postRequest(process.env.VUE_APP_API + "/notificacion", this.notificacion);
+
+            let response = await this.$sendRequestFile(process.env.VUE_APP_API + "/notificacion", this.notificacion);
             if (response.success) {
                 this.$showNotification('success', 'Notificación creada correctamente', 'check');
                 this.$router.push({

@@ -74,7 +74,6 @@ export default {
         async uploadFile() {
             this.notificacion._method = 'PUT';
             let response = await this.$sendRequestFile(process.env.VUE_APP_API + "/notificacion/" + this.$route.params.id, this.notificacion);
-            console.log(response);
             if (response.success) {
                 this.active = false;
             }

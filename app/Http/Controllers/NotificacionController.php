@@ -39,12 +39,26 @@ class NotificacionController extends Controller
             $rol = $user->roles()->get();
             if($rol[0]->id==1){
                 $supervisor = supervisor::where("id_usuario","=",$id)->get();
-                return Notificacion::where("user_id","=",$supervisor[0]->id_usuario)->get();
+                return Notificacion::join('tipo_notificacions','notificacions.id_tipo_actividad','=','tipo_notificacions.id' )
+                ->join('establecimientos','notificacions.id_establecimiento','=','establecimientos.id_establecimiento')
+                ->join('profesors','notificacions.id_profesor','=','profesors.id')
+                ->select('notificacions.*', 'tipo_notificacions.descripcion','establecimientos.nombre',
+                DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"),
+                DB::raw("IF(notificacions.estado = TRUE,'NO LEIDA','LEIDA') AS state"))
+                ->where("user_id","=",$supervisor[0]->id_usuario)->get();
+                
+                    
             }
             if($rol[0]->id == 2)
             {
                 $profesor = Profesor::where("id_usuario","=",$id)->get();
-                return Notificacion::where("id_profesor","=",$profesor[0]->id)->get();
+                return Notificacion::join('tipo_notificacions','notificacions.id_tipo_actividad','=','tipo_notificacions.id' )
+                ->join('establecimientos','notificacions.id_establecimiento','=','establecimientos.id_establecimiento')
+                ->join('profesors','notificacions.id_profesor','=','profesors.id')
+                ->select('notificacions.*', 'tipo_notificacions.descripcion','establecimientos.nombre',
+                DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"),
+                DB::raw("IF(notificacions.estado = TRUE,'NO LEIDA','LEIDA') AS state"))
+                ->where("id_profesor","=",$profesor[0]->id)->get();
             } 
             
             }

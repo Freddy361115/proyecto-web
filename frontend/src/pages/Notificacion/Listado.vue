@@ -94,6 +94,16 @@ export default {
             active: false,
             resource_id: null,
             fields: [{
+                    key: 'nombre',
+                    label: 'Establecimiento',
+                    sortable: true,
+                },
+                {
+                    key: 'Profesor',
+                    label: 'Profesor',
+                    sortable: true,
+                },
+                {
                     key: 'titulo_actividad',
                     label: 'Titulo',
                     sortable: true,
@@ -109,7 +119,7 @@ export default {
                     sortable: true,
                 },
                 {
-                    key: 'id_tipo_actividad',
+                    key: 'descripcion',
                     label: 'Tipo Actividad',
                 },
                 {

@@ -32,6 +32,21 @@
                                 <md-textarea required v-model="notificacion.descripcion"></md-textarea>
                             </md-field>
                         </div>
+
+                        <div>
+                            <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+                                
+                                <div class="md-layout-item md-small-size-100 md-size-100">
+                                    <md-field>
+                                        <label>Compartir Archivo o Imagen</label>
+                                        <input type="file" id="sharedfile" ref="sharedfile" v-on:change="handleFileUpload()"/>
+                                    </md-field>
+                                </div>
+                                <md-button class="md-round md-success" @click="uploadFile">Subir archivo</md-button>
+                            </div>
+                        </div>        
+
+
                         <div class="md-layout-item md-small-size-100 md-size-33">
                             <span>Tipo Notificación</span>
                             <md-field>
@@ -128,7 +143,8 @@ export default {
                 titulo_actividad  : '',
                 descripcion       : '',
                 fecha_inicial     : '',
-                fecha_final       : '',
+                fecha_final       : '',                
+                sharedfile        : '',
                 user_id           : 1,
                 id_profesor       : null,
                 id_establecimiento: null,
@@ -137,10 +153,21 @@ export default {
         };
     },
     methods: {
+        handleFileUpload() {
+            this.notificacion.sharedfile = this.$refs.sharedfile.file[0];
+        },
         goBack() {
             this.$router.push({
                 name: "Notificaciones"
-            });
+            })
+        },
+        async uploadFile() {
+            //this.notificacion._method = 'PUT';
+            let response = await this.$sendRequestFile(process.env.VUE_APP_API + "/notificacion", this.notificacion);
+            console.log(response);
+            if (response.success) {
+                this.active = false;
+            }
         },
         async save() {
             let that = this;

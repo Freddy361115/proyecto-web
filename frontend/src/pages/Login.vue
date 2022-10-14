@@ -1,13 +1,13 @@
-<template>
-<div class="content">
-    <div class="md-layout">
+<template >
+<div class="content" style="background-image:url('https://www.slon.pics/file/2017/03/Flag-of-Guatemala-in-the-corner-on-white-background.-Isolated-contains-clipping-path-19431.jpg'); background-repeat: no-repeat;">
+    <div class="md-layout" >
         <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33">
 
         </div>
         <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33">
             <md-card style="margin-top: 10%">
                 <md-card-header data-background-color="green">
-                    <h4 class="title">Login</h4>
+                    <h4 class="title">Iniciar Sesion</h4>
                 </md-card-header>
                 <md-card-content>
                     <div class="md-layout">
@@ -104,7 +104,7 @@ export default {
                 this.getUserInfo();
             } else {
                 this.showSnackbar = true;
-                this.error = 'Compruebe sus credenciales';
+                this.error = 'Verifique su usuario y contraseña.';
                 this.loading = false;
             }
 

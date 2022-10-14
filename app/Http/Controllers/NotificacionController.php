@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Notificacion;
 use App\Models\Profesor;
 use App\Models\supervisor;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Validator,Redirect,Response,File;
 use Illuminate\Support\Facades\Storage;
+
 
 class NotificacionController extends Controller
 {
@@ -20,7 +22,12 @@ class NotificacionController extends Controller
     public function index()
     {
         //
-        return Notificacion::where("estado","=",true)->get();
+        return Notificacion::join('tipo_notificacions','notificacions.id_tipo_actividad','=','tipo_notificacions.id' )
+        ->join('establecimientos','notificacions.id_establecimiento','=','establecimientos.id_establecimiento')
+        ->join('profesors','notificacions.id_profesor','=','profesors.id')
+        ->select('notificacions.*', 'tipo_notificacions.descripcion','establecimientos.nombre',
+        DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"))
+        ->get();
         
     }
 

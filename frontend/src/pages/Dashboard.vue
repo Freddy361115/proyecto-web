@@ -135,7 +135,18 @@
               isBusy     : false,
               active     : false,
               resource_id: null,
-              fields     : [{
+              fields     : [
+              {
+                      key: 'nombre',
+                      label: 'Establecimiento',
+                      sortable: true,
+                  },
+                  {
+                      key: 'Profesor',
+                      label: 'Profesor',
+                      sortable: true,
+                  },
+                  {
                       key: 'titulo_actividad',
                       label: 'Titulo',
                       sortable: true,
@@ -151,8 +162,13 @@
                       sortable: true,
                   },
                   {
-                      key: 'id_tipo_actividad',
+                      key: 'descripcion',
                       label: 'Tipo Actividad',
+                  },
+                  {
+                      key: 'state',
+                      label: 'Estado',
+                      sortable: true,
                   },
                   {
                       key: 'id',

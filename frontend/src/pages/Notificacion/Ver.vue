@@ -43,7 +43,18 @@
                         </div>
                     </md-card-content>
                 </md-card-area>
-                <p v-if="notificacion.filepath"><a :href="filePath" target="_blank">Descargar Archivo</a></p>
+
+                <md-card-area>
+                    <md-card-content>
+                        <h3 class="md-subheading">Archivo subido por profesor: </h3>
+                        <div class="card-reservation">
+                            <md-icon>cloud_download</md-icon>
+                            <div class="md-button-group">
+                                <md-button v-if="notificacion.filepath"> <a :href="filepath" target="_blank">Descargar Archivo</a></md-button>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card-area>
                 <div v-if="notificacion.id_tipo_actividad == 2">
                     <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
                         <hr>
@@ -100,9 +111,9 @@ export default {
         async uploadFile() {
             this.notificacion._method = 'PUT';
             let response = await this.$sendRequestFile(process.env.VUE_APP_API + "/notificacion/" + this.$route.params.id, this.notificacion);
-            console.log(response);
             if (response.success) {
                 this.active = false;
+                location.reload();
             }
         }
     }

@@ -81,7 +81,7 @@ Vue.prototype.$getRequest = function (url) {
         })
         .catch(error => {
             if (error.response.status && error.response.status==401) {
-                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                console.log("se requiere autenticacion")
                 this.$router.push('login');    
             }
             else {
@@ -104,7 +104,7 @@ Vue.prototype.$postRequest = function (url, params) {
         })
         .catch(error => {
             if (error.response.status==401) {
-                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                console.log("se requiere autenticacion")
                 this.$router.push('login');    
             }
             else {
@@ -127,7 +127,7 @@ Vue.prototype.$putRequest = function (url, params) {
         })
         .catch(error => {
             if (error.response.status==401) {
-                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                console.log("se requiere autenticacion")
                 this.$router.push('login');    
             }
             else {
@@ -151,7 +151,7 @@ Vue.prototype.$sendRequestFile = function (url, params) {
         })
         .catch(error => {
             if (error.response.status==401) {
-                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                console.log("se requiere autenticacion")
                 this.$router.push('login');    
             }
             else {
@@ -174,7 +174,7 @@ Vue.prototype.$deleteRequest = function (url) {
         })
         .catch(error => {
             if (error.response.status==401) {
-                this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
+                console.log("se requiere autenticacion")
                 this.$router.push('login');    
             }
             else {

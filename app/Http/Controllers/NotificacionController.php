@@ -302,20 +302,18 @@ if ($validator->fails()) {
     {
         //
         try {
-            $data =  Notificacion::join('supervisors','notificacions.user_id','=','supervisors.id_usuario')
-            ->select('notificacions.*',
-            DB::raw("CONCAT(supervisors.nombres,' ',supervisors.apellidos) AS supervisor"))
-            ->where('notificacions.id','=',$id)
-            ->get();
-            //$extension = $data[0]->sharedfilepath->getClientOriginalExtension();
-            $supervisorExtension = pathinfo($data[0]->sharedfilepath, PATHINFO_EXTENSION);
-            $profesorExtension = pathinfo($data[0]->filepath, PATHINFO_EXTENSION);
+            $notificacion = Notificacion::find($id);
+            $notificacion->supervisor_name = $notificacion->supervisor->nombres . ' ' . $notificacion->supervisor->apellidos;
 
-            $data[0]->filepathNew = Storage::url($data[0]->filepath);
-            $data[0]->sharedfilepathNew = Storage::url($data[0]->sharedfilepath);
-            $data[0]->extensionSupervisor = $supervisorExtension;
-            $data[0]->extensionProfesor = $profesorExtension;
-            return $data[0];
+            //$extension = $data[0]->sharedfilepath->getClientOriginalExtension();
+            $supervisorExtension = pathinfo($notificacion->sharedfilepath, PATHINFO_EXTENSION);
+            $profesorExtension = pathinfo($notificacion->filepath, PATHINFO_EXTENSION);
+
+            $notificacion->filepathNew = Storage::url($notificacion->filepath);
+            $notificacion->sharedfilepathNew = Storage::url($notificacion->sharedfilepath);
+            $notificacion->extensionSupervisor = $supervisorExtension;
+            $notificacion->extensionProfesor = $profesorExtension;
+            return $notificacion;
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado, detalle: '.$th), 404);
         }

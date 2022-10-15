@@ -44,13 +44,13 @@
                     </md-card-content>
                 </md-card-area>
 
-                <md-card-area>
+                <md-card-area v-if="notificacion.filepath">
                     <md-card-content>
                         <h3 class="md-subheading">Archivo subido por profesor: </h3>
                         <div class="card-reservation">
                             <md-icon>cloud_download</md-icon>
                             <div class="md-button-group">
-                                <md-button v-if="notificacion.filepath"> <a :href="filepath" target="_blank">Descargar Archivo</a></md-button>
+                                <md-button> <a :href="filepath" target="_blank">Descargar Archivo</a></md-button>
                             </div>
                         </div>
                     </md-card-content>

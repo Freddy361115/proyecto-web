@@ -50,7 +50,7 @@
                         <div class="card-reservation">
                             <md-icon>cloud_download</md-icon>
                             <div class="md-button-group">
-                                <md-button> <a :href="filepath" target="_blank">Descargar Archivo</a></md-button>
+                                <md-button> <a :href="filePath" target="_blank">Descargar Archivo</a></md-button>
                             </div>
                         </div>
                     </md-card-content>
@@ -93,7 +93,8 @@ export default {
     data: () => {
         return {
             notificacion: null,
-            filePath: ''
+            filePath: '',
+            sharedfilepath: ''
         }
     },
     methods: {

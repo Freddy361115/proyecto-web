@@ -46,9 +46,11 @@
                                 </md-button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                      <md-card>
-                                        <center><h3>{{username}}</h3></center>
-                                      </md-card>
+                                        <md-card>
+                                            <center>
+                                                <h3>{{username}}</h3>
+                                            </center>
+                                        </md-card>
                                     </li>
                                     <li><a href="#" @click="logOut">Cerrar Sesion</a></li>
                                 </ul>
@@ -82,8 +84,10 @@ export default {
             this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
         },
         logOut() {
-          localStorage.clear();
-          this.$router.push('login');
+            localStorage.clear();
+            this.$router.push({
+                name: 'Login'
+            });
         }
     },
 };

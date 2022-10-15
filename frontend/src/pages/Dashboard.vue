@@ -60,7 +60,6 @@
                           <div class="md-layout-item md-small-size-100 md-size-33">
                           </div>
                           <div class="md-layout-item md-small-size-100 md-size-33" style="text-align:right;">
-                              <md-button class="md-primary" @click="gotoCreate" v-if="rol_id == 1">Crear Notificación</md-button>
                           </div>
                       </div>
                       <br>

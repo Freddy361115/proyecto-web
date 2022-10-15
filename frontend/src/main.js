@@ -80,7 +80,7 @@ Vue.prototype.$getRequest = function (url) {
             return result.data;
         })
         .catch(error => {
-            if (error.response.status==401) {
+            if (error.response.status && error.response.status==401) {
                 this.$showNotification('danger', 'Se requiere autenticacion.', 'add_alert');
                 this.$router.push('login');    
             }

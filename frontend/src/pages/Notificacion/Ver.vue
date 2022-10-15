@@ -2,7 +2,7 @@
 <div class="content">
     <div class="md-layout">
         <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-            <md-card class="md-card-example">
+            <md-card class="md-card-example" v-if="notificacion">
                 <md-card-area md-inset>
 
                     <md-card-header data-background-color="green">
@@ -33,7 +33,6 @@
                 </md-card-content>
 
                 <md-card-area>
-
                     <md-card-content v-if="notificacion.extensionSupervisor === 'pdf' || notificacion.extensionSupervisor === 'docx'|| notificacion.extensionSupervisor === 'xlsx'">
                         <h3 class="md-subheading">Archivo Compartido: </h3>
                         <div class="card-reservation">
@@ -44,6 +43,19 @@
                         </div>
                     </md-card-content>
                 </md-card-area>
+                <p v-if="notificacion.filepath"><a :href="filePath" target="_blank">Descargar Archivo</a></p>
+                <div v-if="notificacion.id_tipo_actividad == 2">
+                    <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+                        <hr>
+                        <div class="md-layout-item md-small-size-100 md-size-100">
+                            <md-field>
+                                <label>Archivo</label>
+                                <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+                            </md-field>
+                        </div>
+                        <md-button class="md-round md-success" @click="uploadFile">Cargar Archivo</md-button>
+                    </div>
+                </div>
                 <md-card-actions>
                     <md-button @click="sendDelete" class="md-primary">Marcar como leida</md-button>
                 </md-card-actions>

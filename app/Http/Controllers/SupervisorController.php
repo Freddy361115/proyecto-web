@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supervisor;
+use App\Models\supervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +17,7 @@ class SupervisorController extends Controller
     public function index()
     {
         //
-        return Supervisor::where('estado','=',true)->get(); // Retornando todos los supervisores activos.
+        return supervisor::where('estado','=',true)->get(); // Retornando todos los supervisores activos.
 
     }
 
@@ -37,7 +37,7 @@ class SupervisorController extends Controller
         //
         $dataUser = new User;
         $post = $request->all();    
-        $data = new Supervisor;
+        $data = new supervisor;
 
         try {
             /* DATOS PARA CREAR USUARIO */
@@ -77,14 +77,14 @@ class SupervisorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Supervisor  $supervisor
+     * @param  \App\Models\supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
         try {
-            return $data =  Supervisor::findOrFail($id);
+            return $data =  supervisor::findOrFail($id);
         } catch (\Throwable $th) {
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
         }
@@ -93,7 +93,7 @@ class SupervisorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Supervisor  $supervisor
+     * @param  \App\Models\supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -101,7 +101,7 @@ class SupervisorController extends Controller
         //
         try {
             //code...
-            return $data = Supervisor::findOrFail($id);
+            return $data = supervisor::findOrFail($id);
         } catch (\Throwable $th) {
             //throw $th;    
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
@@ -119,7 +119,7 @@ class SupervisorController extends Controller
     {
         //
         $post = $request->all();
-    $data = Supervisor::findOrFail($id);
+    $data = supervisor::findOrFail($id);
     $data->nombres = $post['nombres'];
     $data->apellidos = $post['apellidos'];
     $data->fecha_nacimiento = $post['fecha_nacimiento'];
@@ -150,13 +150,13 @@ try {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Supervisor  $supervisor
+     * @param  \App\Models\supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
-        $supervisor = Supervisor::findOrFail($id);
+        $supervisor = supervisor::findOrFail($id);
     $supervisor->estado=false;
     try {
         $supervisor->save();

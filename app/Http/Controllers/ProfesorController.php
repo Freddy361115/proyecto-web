@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Input;
 use Illuminate\Http\Request;
 use App\Models\Profesor;
-use App\Models\Establecimiento;
+use App\Models\establecimiento;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -79,7 +79,7 @@ public function show($id)
   { 
     try {
         $data =  Profesor::findOrFail($id);
-        $establecimiento = Establecimiento::where('id_establecimiento',$data->id_establecimiento)->first();
+        $establecimiento = establecimiento::where('id_establecimiento',$data->id_establecimiento)->first();
         $key="nombre_establecimiento";
         $data[$key]=$establecimiento->nombre;
         return $data;

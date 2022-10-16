@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Establecimiento;
+use App\Models\establecimiento;
 use App\Models\supervisor;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class EstablecimientoController extends Controller
     public function index()
     {
         //
-        return Establecimiento::where('estado','=',true)->get();
+        return establecimiento::where('estado','=',true)->get();
     }
 
     /**
@@ -39,7 +39,7 @@ class EstablecimientoController extends Controller
     {
         //
         $post = $request->all();
-    $data = new Establecimiento;
+    $data = new establecimiento;
     $data->nombre = $post['nombre'];
     $data->direccion = $post['direccion'];
     $data->telefono = $post['telefono'];
@@ -67,7 +67,7 @@ class EstablecimientoController extends Controller
     {
         //
         try {
-            $data =  Establecimiento::where('id_establecimiento',$id)->first();
+            $data =  establecimiento::where('id_establecimiento',$id)->first();
             $supervisor = supervisor::findOrFail($data->id_supervisor);
             $key="nombre_supervisor";
             $data[$key]=$supervisor->nombres ." ". $supervisor->apellidos;
@@ -83,7 +83,7 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Establecimiento $establecimiento)
+    public function edit(establecimiento $establecimiento)
     {
         //
     }
@@ -92,7 +92,7 @@ class EstablecimientoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Establecimiento  $establecimiento
+     * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,7 +100,7 @@ class EstablecimientoController extends Controller
         //
         $post = $request->all();
         try {
-            Establecimiento::where('id_establecimiento',$id)->update([
+            establecimiento::where('id_establecimiento',$id)->update([
                 'nombre' => $post['nombre'],
                 'direccion' => $post['direccion'],
                 'telefono'  => $post['telefono'],
@@ -108,7 +108,7 @@ class EstablecimientoController extends Controller
                 'codigo_establecimiento' => $post['codigo_establecimiento'],
                 'id_supervisor' => $post['id_supervisor']]);
                 try {
-                    Establecimiento::where('id_establecimiento',$id)->update (
+                    establecimiento::where('id_establecimiento',$id)->update (
                         ['estado'=>$post['estado']]
                     );
 
@@ -128,7 +128,7 @@ class EstablecimientoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Establecimiento  $establecimiento
+     * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -136,7 +136,7 @@ class EstablecimientoController extends Controller
 
 
     try {
-        Establecimiento::where('id_establecimiento',$id)
+        establecimiento::where('id_establecimiento',$id)
         ->update(['estado'=> false]);
 
     return response()->json(array('success' => true, 'messagge'=> 'Registro eliminado correctamente' ), 200);

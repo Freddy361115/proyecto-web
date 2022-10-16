@@ -16,6 +16,6 @@ class Notificacion extends Model
      */
     public function supervisor()
     {
-        return $this->belongsTo(Supervisor::class, 'user_id', 'id_usuario');
+        return $this->belongsTo(supervisor::class, 'user_id', 'id_usuario');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\supervisor;
+use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,7 +77,7 @@ class SupervisorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -93,7 +93,7 @@ class SupervisorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -101,7 +101,7 @@ class SupervisorController extends Controller
         //
         try {
             //code...
-            return $data = supervisor::findOrFail($id);
+            return $data = Supervisor::findOrFail($id);
         } catch (\Throwable $th) {
             //throw $th;    
             return response()->json(array('success' => false,'messagge'=> 'Registro no encontrado'), 404);
@@ -150,7 +150,7 @@ try {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\supervisor  $supervisor
+     * @param  \App\Models\Supervisor  $supervisor
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

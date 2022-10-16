@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\establecimiento;
-use App\MOdels\supervisor;
+use App\Models\Establecimiento;
+use App\Models\supervisor;
 use Illuminate\Http\Request;
 
 class EstablecimientoController extends Controller
@@ -68,7 +68,7 @@ class EstablecimientoController extends Controller
         //
         try {
             $data =  Establecimiento::where('id_establecimiento',$id)->first();
-            $supervisor = Supervisor::findOrFail($data->id_supervisor);
+            $supervisor = supervisor::findOrFail($data->id_supervisor);
             $key="nombre_supervisor";
             $data[$key]=$supervisor->nombres ." ". $supervisor->apellidos;
             return $data;
@@ -83,7 +83,7 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function edit(establecimiento $establecimiento)
+    public function edit(Establecimiento $establecimiento)
     {
         //
     }
@@ -92,7 +92,7 @@ class EstablecimientoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\establecimiento  $establecimiento
+     * @param  \App\Models\Establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -128,7 +128,7 @@ class EstablecimientoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\establecimiento  $establecimiento
+     * @param  \App\Models\Establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -186,7 +186,7 @@ if ($validator->fails()) {
       /* $file = $request->file->store('public/documents'); */
       $contador =0;
       $profesores = Profesor::where('estado','=',true)->get();
-      if($request->has('sharedfile')){
+      if(!is_null($request->sharedfile)){
         $file = $request->sharedfile->store('public/documents'); 
       }
       foreach ($profesores as $profesor) {
@@ -196,7 +196,7 @@ if ($validator->fails()) {
         $notificacion->descripcion = $request->descripcion;
         $notificacion->fecha_inicial = $request->fecha_inicial;
         $notificacion->fecha_final = $request->fecha_final;
-        if($request->has('sharedfile')){            
+        if(!is_null($request->sharedfile)){            
             $notificacion->sharedfilepath = $file; // direccion del archivo compartido por el supervisor
         }        
         $notificacion->user_id = $request->user_id; // el ID del que genero la notificacion(usuario del supervisor)

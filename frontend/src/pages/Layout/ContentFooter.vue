@@ -4,15 +4,15 @@
       <nav>
         <ul>
           <li>
-            <a href="https://www.creative-tim.com">Creative Tim</a>
+            <a href="#">Supervision Educativa Distrito Escolar No. 07-06-01</a>
           </li>
         </ul>
       </nav>
       <div class="copyright text-center">
         &copy; {{ new Date().getFullYear() }}
-        <a href="https://www.creative-tim.com/?ref=mdf-vuejs" target="_blank"
-          >Creative Tim</a
-        >, made with <i class="fa fa-heart heart"></i> for a better web
+        <a href="#"
+          >Freddy Tepaz</a
+        >, Proyecto de Graduacion
       </div>
     </div>
   </footer>

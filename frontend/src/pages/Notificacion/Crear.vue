@@ -105,7 +105,7 @@ export default {
         this.profesores_data = await this.$getRequest(process.env.VUE_APP_API + '/profesores');
         this.profesores_data.forEach(sup => {
             that.profesores.push({
-                label: sup.nombres,
+                label: sup.nombres + ' ' + sup.apellidos,
                 code: sup.id
             });
         });

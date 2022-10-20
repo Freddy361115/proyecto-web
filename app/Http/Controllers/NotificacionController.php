@@ -46,7 +46,8 @@ class NotificacionController extends Controller
                 ->select('notificacions.*', 'tipo_notificacions.descripcion','establecimientos.nombre',
                 DB::raw("CONCAT(profesors.nombres,' ',profesors.apellidos) AS Profesor"),
                 DB::raw("IF(notificacions.estado = TRUE,'NO LEIDA','LEIDA') AS state"))
-                ->where("user_id","=",$supervisor[0]->id_usuario)->get();
+                ->where("user_id","=",$supervisor[0]->id_usuario)
+                ->orderBy('id', 'desc')->get();
                 
                     
             }

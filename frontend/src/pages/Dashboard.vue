@@ -80,6 +80,10 @@
                                   </md-button>
                               </template>
                           </b-table>
+                          <nav>
+                            <b-pagination class="rounded" size="sm" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" prev-text="Prev" next-text="Next" hide-goto-end-buttons />
+                        </nav>
+
                       </div>
   
                   </md-card-content>
@@ -177,7 +181,7 @@
               currentPage: 1,
               perPage: 10,
               totalRows: 0
-          };
+          }
       },
       mounted: function () {
           this.getData();
